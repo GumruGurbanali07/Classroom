@@ -12,10 +12,9 @@ namespace ToDoListAPI.Domain.Entities
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public bool Status { get; set; }
-		public DateTime CreatedDate { get; set; }
-		public DateTime UpdatedDate { get; set; }
+		
 		public Guid TeacherId { get; set; }
 		public Teacher Teacher { get; set; }
-		public ICollection<Student> Students { get; set; }
+		public ICollection<StudentTask> StudentTasks { get; set; }
 	}
 }

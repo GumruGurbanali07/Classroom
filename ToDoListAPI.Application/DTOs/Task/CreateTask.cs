@@ -11,7 +11,8 @@ namespace ToDoListAPI.Application.DTOs.Task
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public bool Status { get; set; }
-		public DateTime CreatedDate { get; set; }
-		public DateTime UpdatedDate { get; set; }
+		public Guid TeacherId { get; set; }
+		public DateTime Deadline { get; set; }
+
 	}
 }

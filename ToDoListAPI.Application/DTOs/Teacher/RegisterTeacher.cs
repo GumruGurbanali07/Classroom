@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDoListAPI.Application.DTOs.Teacher
 {
-	public class CreateTeacher
+	public class RegisterTeacher
 	{
 		public string Name { get; set; }
 		public string Surname { get; set; }
