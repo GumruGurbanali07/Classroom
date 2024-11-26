@@ -1,0 +1,15 @@
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\bin\Debug\net8.0\ToDoListAPI.Application.deps.json
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\bin\Debug\net8.0\ToDoListAPI.Application.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\bin\Debug\net8.0\ToDoListAPI.Application.pdb
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\bin\Debug\net8.0\ToDoListAPI.Domain.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\bin\Debug\net8.0\ToDoListAPI.Domain.pdb
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoListAPI.Application.csproj.AssemblyReference.cache
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoListAPI.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoListAPI.Application.AssemblyInfoInputs.cache
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoListAPI.Application.AssemblyInfo.cs
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoListAPI.Application.csproj.CoreCompileInputs.cache
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoList.B101EB07.Up2Date
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoListAPI.Application.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\refint\ToDoListAPI.Application.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ToDoListAPI.Application.pdb
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net8.0\ref\ToDoListAPI.Application.dll
