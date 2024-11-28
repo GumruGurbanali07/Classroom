@@ -13,3 +13,4 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\refint\ToDoListAPI.Application.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.pdb
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ref\ToDoListAPI.Application.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.sourcelink.json

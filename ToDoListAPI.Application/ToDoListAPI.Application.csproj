@@ -7,4 +7,15 @@
   <ItemGroup>
     <ProjectReference Include="..\ToDoListAPI.Domain\ToDoListAPI.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CQRS\Command\Task\" />
+    <Folder Include="CQRS\Command\Student\" />
+    <Folder Include="CQRS\Command\Teacher\" />
+    <Folder Include="CQRS\Query\Student\" />
+    <Folder Include="CQRS\Query\Task\" />
+    <Folder Include="CQRS\Query\Teacher\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+  </ItemGroup>
 </Project>

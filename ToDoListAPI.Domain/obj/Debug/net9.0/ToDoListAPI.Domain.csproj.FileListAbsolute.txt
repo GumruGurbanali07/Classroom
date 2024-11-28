@@ -10,3 +10,4 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Domain\obj\Debug\net9.0\ToD
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Domain\obj\Debug\net9.0\refint\ToDoListAPI.Domain.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Domain\obj\Debug\net9.0\ToDoListAPI.Domain.pdb
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Domain\obj\Debug\net9.0\ref\ToDoListAPI.Domain.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Domain\obj\Debug\net9.0\ToDoListAPI.Domain.sourcelink.json

@@ -16,7 +16,22 @@ namespace ToDoListAPI.Persistence.Services
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<Domain.Entities.Task>> GetAssignedTasksForStudentAsync(string studentId)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<Student> GetStudentByIdAsync(string id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<Domain.Entities.Task>> GetSubmittedTasksForStudentAsync(string studentId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<Teacher>> GetTeacherForStudentAsync(string studentId)
 		{
 			throw new NotImplementedException();
 		}
@@ -32,6 +47,11 @@ namespace ToDoListAPI.Persistence.Services
 		}
 
 		public Task<Student> RegisterStudentAsync(RegisterStudent createStudent)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<bool> RemoveTeacherFromStudentAsync(string studentId, string teacherId)
 		{
 			throw new NotImplementedException();
 		}

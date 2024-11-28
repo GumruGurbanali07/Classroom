@@ -5,6 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -15,5 +18,8 @@
     <ProjectReference Include="..\ToDoListAPI.Application\ToDoListAPI.Application.csproj" />
     <ProjectReference Include="..\ToDoListAPI.Infrastructure\ToDoListAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\ToDoListAPI.Persistence\ToDoListAPI.Persistence.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>

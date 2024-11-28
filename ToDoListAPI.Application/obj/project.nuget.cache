@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "zq6mlUVtV/8=",
+  "dgSpecHash": "U2HaZ48d9BI=",
   "success": true,
   "projectFilePath": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Application\\ToDoListAPI.Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Sheki-S\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\9.0.0\\microsoft.aspnetcore.cryptography.internal.9.0.0.nupkg.sha512",
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\9.0.0\\microsoft.aspnetcore.cryptography.keyderivation.9.0.0.nupkg.sha512",
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\9.0.0\\microsoft.aspnetcore.identity.entityframeworkcore.9.0.0.nupkg.sha512",

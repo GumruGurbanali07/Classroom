@@ -17,3 +17,4 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.pdb
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.genruntimeconfig.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ref\ToDoListAPI.Persistence.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.sourcelink.json
