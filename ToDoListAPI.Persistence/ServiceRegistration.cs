@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ToDoListAPI.Application.Repository;
 using ToDoListAPI.Persistence.Repository;
+using ToDoListAPI.Application.Services;
+using ToDoListAPI.Persistence.Services;
 
 namespace ToDoListAPI.Persistence
 {
@@ -27,6 +29,10 @@ namespace ToDoListAPI.Persistence
 			services.AddScoped<ITaskWriteRepository,TaskWriteRepository>();
 			services.AddScoped<ITeacherReadRepository,TeacherReadRepository>();
 			services.AddScoped<ITeacherWriteRepository, TeacherWriteRepository>();
+			services.AddScoped<ITeacherService,TeacherService>();
+			services.AddScoped<IStudentService, StudentService>();
+			services.AddScoped<ITaskService, TaskService>();
+
 		}
 	}
 }

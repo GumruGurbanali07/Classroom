@@ -19,7 +19,4 @@
     <ProjectReference Include="..\ToDoListAPI.Infrastructure\ToDoListAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\ToDoListAPI.Persistence\ToDoListAPI.Persistence.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
 </Project>

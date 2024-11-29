@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoListAPI.Application.Token;
-using T=ToDoListAPI.Infrastructure.Token
+using T = ToDoListAPI.Infrastructure.Token;
 namespace ToDoListAPI.Infrastructure
 {
 	public static class ServiceRegistration

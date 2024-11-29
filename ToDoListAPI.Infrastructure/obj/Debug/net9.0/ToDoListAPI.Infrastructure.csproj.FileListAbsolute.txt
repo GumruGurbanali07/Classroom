@@ -10,9 +10,9 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\ne
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoListAPI.Infrastructure.AssemblyInfoInputs.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoListAPI.Infrastructure.AssemblyInfo.cs
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoListAPI.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoListAPI.Infrastructure.sourcelink.json
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoList.13B16C0E.Up2Date
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoListAPI.Infrastructure.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\refint\ToDoListAPI.Infrastructure.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoListAPI.Infrastructure.pdb
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ref\ToDoListAPI.Infrastructure.dll
-C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Infrastructure\obj\Debug\net9.0\ToDoListAPI.Infrastructure.sourcelink.json

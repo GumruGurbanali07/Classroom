@@ -9,5 +9,11 @@ namespace ToDoListAPI.Domain.Entities.Identity
 {
 	public class AppUser:IdentityUser<string>
 	{
+		public AppUser()
+		{
+			Id=Guid.NewGuid().ToString();
+		}
+		public string Subject { get; set; }
+
 	}
 }

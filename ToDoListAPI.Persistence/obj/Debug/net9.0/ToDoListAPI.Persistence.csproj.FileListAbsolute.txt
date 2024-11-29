@@ -11,10 +11,10 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.AssemblyInfoInputs.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.AssemblyInfo.cs
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.csproj.CoreCompileInputs.cache
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.sourcelink.json
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoList.E9A1C608.Up2Date
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\refint\ToDoListAPI.Persistence.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.pdb
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.genruntimeconfig.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ref\ToDoListAPI.Persistence.dll
-C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Persistence\obj\Debug\net9.0\ToDoListAPI.Persistence.sourcelink.json

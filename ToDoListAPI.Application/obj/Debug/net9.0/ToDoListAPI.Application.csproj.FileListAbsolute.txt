@@ -8,9 +8,9 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.AssemblyInfoInputs.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.AssemblyInfo.cs
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.csproj.CoreCompileInputs.cache
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.sourcelink.json
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoList.B101EB07.Up2Date
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\refint\ToDoListAPI.Application.dll
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.pdb
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ref\ToDoListAPI.Application.dll
-C:\Users\Sheki-S\source\repos\To-Do List\ToDoListAPI.Application\obj\Debug\net9.0\ToDoListAPI.Application.sourcelink.json
