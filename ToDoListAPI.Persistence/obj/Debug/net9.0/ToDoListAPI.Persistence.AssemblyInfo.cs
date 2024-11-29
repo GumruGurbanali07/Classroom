@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ToDoListAPI.Persistence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+77dc0c648801fc20dddcb50b3b38b4d4ec23022a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+49e3e5d197339eb4ec999cc05fb873dcd6d90146")]
 [assembly: System.Reflection.AssemblyProductAttribute("ToDoListAPI.Persistence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ToDoListAPI.Persistence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

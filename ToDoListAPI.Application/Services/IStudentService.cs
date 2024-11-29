@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using ToDoListAPI.Application.DTOs.Student;
 using ToDoListAPI.Domain.Entities;
 using Task = ToDoListAPI.Domain.Entities.Task;
+using T = ToDoListAPI.Application.DTOs;
 
 namespace ToDoListAPI.Application.Services
 {
 	public interface IStudentService
 	{
-		public Task<Student> RegisterStudentAsync(RegisterStudent createStudent);
-		public Task<Student> LoginStudentAsync(LoginStudent createStudent);
+		public Task<RegisterStudentResponse> RegisterStudentAsync(RegisterStudent createStudent);
+		public Task<T.Token> LoginStudentAsync(LoginStudent loginStudent, int tokenLifetime);
 		public Task<Student> UpdateStudentAsync(UpdateStudent updateStudent);
 		Task<IEnumerable<Student>> GetAllStudentAsync();
 		Task<Student> GetStudentByIdAsync(string id);
