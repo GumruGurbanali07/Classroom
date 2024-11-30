@@ -30,5 +30,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "UpdateTeacherAsync",
+    "RelativePath": "api/Teacher/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateTeacher",
+        "Type": "ToDoListAPI.Application.DTOs.Teacher.UpdateTeacher",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

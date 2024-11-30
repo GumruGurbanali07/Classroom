@@ -10,6 +10,7 @@ using System.Security.Claims;
 using ToDoListAPI.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 // Add services to the container.
@@ -51,7 +52,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		   NameClaimType=ClaimTypes.Name
 	   };
    });
-
 
 
 var app = builder.Build();

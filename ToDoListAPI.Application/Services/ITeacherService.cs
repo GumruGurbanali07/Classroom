@@ -14,7 +14,7 @@ namespace ToDoListAPI.Application.Services
 	{
 		Task<RegisterTeacherResponse> RegisterAsTeacherAsync(RegisterTeacher registerTeacher);
 		Task<T.Token> LoginAsTeacherAsync(LoginTeacher loginTeacher, int tokenLifetime);
-		Task<Teacher> UpdateTeacherAsync(UpdateTeacher updateTeacher);
+		Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher);
 		Task<IEnumerable<Teacher>> GetAllTeachersAsync();
 		Task<Teacher> GetTeacherByIdAsync(string id);
 		Task<IEnumerable<Task>> GetAssignedTasksForTeacherAsync(string teacherId);

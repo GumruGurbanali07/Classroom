@@ -15,6 +15,9 @@ using ToDoListAPI.Application.Exceptions;
 using System.Web.Mvc;
 using ToDoListAPI.Application.DTOs;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using ToDoListAPI.Application.Repository;
 
 namespace ToDoListAPI.Persistence.Services
 {
@@ -23,12 +26,17 @@ namespace ToDoListAPI.Persistence.Services
 		private readonly UserManager<AppUser> _userManager;
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly ITokenHandler _tokenHandler;
-
-		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly ITeacherReadRepository _teacherReadRepository;
+		private readonly ITeacherWriteRepository _teacherWriteRepository;
+		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_tokenHandler = tokenHandler;
+			_httpContextAccessor = httpContextAccessor;
+			_teacherReadRepository = teacherReadRepository;
+			_teacherWriteRepository = teacherWriteRepository;
 		}
 
 		public async Task<RegisterTeacherResponse> RegisterAsTeacherAsync(RegisterTeacher registerTeacher)
@@ -129,9 +137,33 @@ namespace ToDoListAPI.Persistence.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<Teacher> UpdateTeacherAsync(UpdateTeacher updateTeacher)
+		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
-			throw new NotImplementedException();
+			var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
+			if (string.IsNullOrEmpty(token))
+			{
+				throw new UnauthorizedAccessException("Authorization token is missing.");
+			}
+
+			var currentTeacherId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+			if (currentTeacherId == null || currentTeacherId != updateTeacher.Id.ToString())
+			{
+				throw new UnauthorizedAccessException("You are not authorized to update this teacher's information");
+			}
+			var teacher = await _teacherReadRepository.GetByIdAsync(updateTeacher.Id.ToString());
+			if(teacher == null)
+			{
+				throw new UserNotFoundException("Teacher not found");
+			}
+			teacher.Name = updateTeacher.Name ?? teacher.Name;
+			teacher.Surname=updateTeacher.Surname?? teacher.Surname;
+			teacher.Subject=updateTeacher.Subject??teacher.Subject;
+			teacher.Gmail=updateTeacher.Gmail?? teacher.Gmail;
+			teacher.Password=updateTeacher.Password?? teacher.Password;
+
+			var result= _teacherWriteRepository.Update(teacher);
+			return result;
+
 		}
 	}
 }

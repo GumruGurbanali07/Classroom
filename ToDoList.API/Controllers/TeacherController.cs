@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
@@ -57,8 +59,30 @@ namespace ToDoList.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				 ModelState.AddModelError("Error", ex.Message);
-				return BadRequest(ModelState);
+				
+				return BadRequest(new {ex.Message});
+			}
+		}
+		[HttpPut("update")]
+		[Authorize(AuthenticationSchemes= "Admin")]
+		public async Task<IActionResult> UpdateTeacherAsync([FromBody] UpdateTeacher updateTeacher)
+		{
+			try
+			{
+				var result=await _teacherService.UpdateTeacherAsync(updateTeacher);
+				if (!result)
+				{
+					return BadRequest(new { message = "Failed to update teacher's information." });
+				}
+				return Ok(new { message = "Teacher's information updated successfully." });
+			}
+			catch(UnauthorizedAccessException ex)
+			{
+				return Unauthorized(new { ex.Message });
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(new { ex.Message });	
 			}
 		}
 	}
