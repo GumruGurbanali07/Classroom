@@ -1,5 +1,35 @@
 [
   {
+    "ContainingType": "ToDoList.API.Controllers.StudentController",
+    "Method": "Index",
+    "RelativePath": "api/Student",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "GetAllTeachersAsync",
+    "RelativePath": "api/Teacher/getall",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ToDoListAPI.Domain.Entities.Teacher, ToDoListAPI.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
     "Method": "LoginAsTeacherAsync",
     "RelativePath": "api/Teacher/login",
@@ -43,6 +73,22 @@
         "Name": "updateTeacher",
         "Type": "ToDoListAPI.Application.DTOs.Teacher.UpdateTeacher",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "GetTeacherByUsernameAsync",
+    "RelativePath": "api/Teacher/username",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

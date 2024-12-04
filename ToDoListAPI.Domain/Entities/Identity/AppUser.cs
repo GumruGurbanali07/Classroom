@@ -13,6 +13,8 @@ namespace ToDoListAPI.Domain.Entities.Identity
 		{
 			Id=Guid.NewGuid().ToString();
 		}
+		public string Name { get; set; }
+		public string Surname { get; set; }
 		public string Subject { get; set; }
 
 	}

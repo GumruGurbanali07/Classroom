@@ -40,10 +40,9 @@ namespace ToDoListAPI.Persistence.Services
 
 			var user = new AppUser
 			{
-				UserName = new string((registerStudent.Name + registerStudent.Surname)
-				 .Replace(" ", "")
-				 .Where(e => char.IsLetterOrDigit(e))
-				 .ToArray()),
+				Name= registerStudent.Name,
+				Surname= registerStudent.Surname,
+				UserName = $"{registerStudent.Name} {registerStudent.Surname}",
 				Email=registerStudent.Gmail
 			};
 			IdentityResult result = await _userManager.CreateAsync(user, registerStudent.Password);

@@ -18,6 +18,8 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using ToDoListAPI.Application.Repository;
+using Microsoft.EntityFrameworkCore;
+using ToDoListAPI.Persistence.Context;
 
 namespace ToDoListAPI.Persistence.Services
 {
@@ -29,7 +31,8 @@ namespace ToDoListAPI.Persistence.Services
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly ITeacherReadRepository _teacherReadRepository;
 		private readonly ITeacherWriteRepository _teacherWriteRepository;
-		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository)
+		private readonly AppDbContext _context;
+		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository, AppDbContext context)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -37,6 +40,7 @@ namespace ToDoListAPI.Persistence.Services
 			_httpContextAccessor = httpContextAccessor;
 			_teacherReadRepository = teacherReadRepository;
 			_teacherWriteRepository = teacherWriteRepository;
+			_context = context;
 		}
 
 		public async Task<RegisterTeacherResponse> RegisterAsTeacherAsync(RegisterTeacher registerTeacher)
@@ -52,10 +56,9 @@ namespace ToDoListAPI.Persistence.Services
 
 			var user = new AppUser
 			{
-				UserName = new string((registerTeacher.Name + registerTeacher.Surname)
-				.Replace(" ", "")
-				.Where(x => char.IsLetterOrDigit(x))
-				.ToArray()),
+				Name= registerTeacher.Name,
+				Surname= registerTeacher.Surname,
+				UserName =$"{registerTeacher.Name} {registerTeacher.Surname}",
 				Email = registerTeacher.Gmail,
 				Subject = registerTeacher.Subject,
 			};
@@ -98,45 +101,6 @@ namespace ToDoListAPI.Persistence.Services
 
 
 		}
-		public Task<IEnumerable<Teacher>> GetAllTeachersAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<Domain.Entities.Task>> GetAssignedTasksForTeacherAsync(string teacherId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<Student>> GetStudentForTeacherAsync(string teacherId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IDictionary<string, TaskStatus>> GetStudentTasksStatusAsync(string teacherId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<Teacher> GetTeacherByIdAsync(string id)
-		{
-			throw new NotImplementedException();
-		}
-
-
-
-		public Task<bool> LogOut()
-		{
-			throw new NotImplementedException();
-		}
-
-
-
-		public Task<bool> RemoveStudentFromTeacherAsync(string teacherId, string studentId)
-		{
-			throw new NotImplementedException();
-		}
-
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
 			var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
@@ -151,19 +115,73 @@ namespace ToDoListAPI.Persistence.Services
 				throw new UnauthorizedAccessException("You are not authorized to update this teacher's information");
 			}
 			var teacher = await _teacherReadRepository.GetByIdAsync(updateTeacher.Id.ToString());
-			if(teacher == null)
+			if (teacher == null)
 			{
 				throw new UserNotFoundException("Teacher not found");
 			}
 			teacher.Name = updateTeacher.Name ?? teacher.Name;
-			teacher.Surname=updateTeacher.Surname?? teacher.Surname;
-			teacher.Subject=updateTeacher.Subject??teacher.Subject;
-			teacher.Gmail=updateTeacher.Gmail?? teacher.Gmail;
-			teacher.Password=updateTeacher.Password?? teacher.Password;
+			teacher.Surname = updateTeacher.Surname ?? teacher.Surname;
+			teacher.Subject = updateTeacher.Subject ?? teacher.Subject;
+			teacher.Gmail = updateTeacher.Gmail ?? teacher.Gmail;
+			teacher.Password = updateTeacher.Password ?? teacher.Password;
 
-			var result= _teacherWriteRepository.Update(teacher);
+			var result = _teacherWriteRepository.Update(teacher);
 			return result;
 
 		}
+		public async Task<IEnumerable<Teacher>> GetAllTeachersAsync()
+		{
+			var teacher = await _teacherReadRepository.GetAll()
+				.Where(x => x.IsActive)
+				.Select(x => new Teacher
+				{
+					Name = x.Name,
+					Surname = x.Surname,
+					Subject = x.Subject,
+					Gmail = x.Gmail,
+				}).ToListAsync();
+			return teacher;
+		}
+
+		public async Task<Teacher> GetTeacherByIdAsync(string username)
+		{
+			return await _context.Set<Teacher>().FirstOrDefaultAsync(
+				x => (x.Name + x.Surname).Replace(" ", "").Equals(username, StringComparison.OrdinalIgnoreCase));				
+
+		}
+
+		public Task<IEnumerable<Student>> GetStudentForTeacherAsync(string teacherId)
+		{
+			throw new NotImplementedException();
+		}
+		public Task<bool> RemoveStudentFromTeacherAsync(string teacherId, string studentId)
+		{
+			throw new NotImplementedException();
+		}
+		public Task<IEnumerable<Domain.Entities.Task>> GetAssignedTasksForTeacherAsync(string teacherId)
+		{
+			throw new NotImplementedException();
+		}
+
+		
+
+		public Task<IDictionary<string, TaskStatus>> GetStudentTasksStatusAsync(string teacherId)
+		{
+			throw new NotImplementedException();
+		}
+
+
+
+
+		public Task<bool> LogOut()
+		{
+			throw new NotImplementedException();
+		}
+
+
+		
+		
+
+
 	}
 }

@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
 using ToDoListAPI.Application.Services;
+using ToDoListAPI.Domain.Entities;
 
 namespace ToDoList.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+
 	public class TeacherController : ControllerBase
 	{
 		private readonly ITeacherService _teacherService;
@@ -45,7 +47,7 @@ namespace ToDoList.API.Controllers
 		{
 			try
 			{
-				int tokenLifetime = 20;
+				int tokenLifetime = 30;
 				var token = await _teacherService.LoginAsTeacherAsync(loginTeacher, tokenLifetime);
 				return Ok(token);
 			}
@@ -59,31 +61,55 @@ namespace ToDoList.API.Controllers
 			}
 			catch (Exception ex)
 			{
-				
-				return BadRequest(new {ex.Message});
+
+				return BadRequest(new { ex.Message });
 			}
 		}
+
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		[HttpPut("update")]
-		[Authorize(AuthenticationSchemes= "Admin")]
+
 		public async Task<IActionResult> UpdateTeacherAsync([FromBody] UpdateTeacher updateTeacher)
 		{
 			try
 			{
-				var result=await _teacherService.UpdateTeacherAsync(updateTeacher);
+				var result = await _teacherService.UpdateTeacherAsync(updateTeacher);
 				if (!result)
 				{
 					return BadRequest(new { message = "Failed to update teacher's information." });
 				}
+
 				return Ok(new { message = "Teacher's information updated successfully." });
 			}
-			catch(UnauthorizedAccessException ex)
+			catch (UnauthorizedAccessException ex)
 			{
-				return Unauthorized(new { ex.Message });
+				return Unauthorized(new{ex.Message});
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
-				return BadRequest(new { ex.Message });	
+				return BadRequest(new { ex.Message });
 			}
+
+		}
+		[HttpGet("getall")]
+		public async Task<ActionResult<IEnumerable<Teacher>>> GetAllTeachersAsync()
+		{
+			var teachers = await _teacherService.GetAllTeachersAsync();
+			if (teachers == null)
+			{
+				return NotFound("There are no any teacher");
+			}
+			return Ok(teachers);
+		}
+		[HttpGet("username")]
+		public async Task<IActionResult> GetTeacherByUsernameAsync(string username)
+		{
+			var teacher = await _teacherService.GetTeacherByIdAsync(username);
+			if (teacher == null)
+			{
+				return NotFound();
+			}
+			return Ok(teacher);
 		}
 	}
 }

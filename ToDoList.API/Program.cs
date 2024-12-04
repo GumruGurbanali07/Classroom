@@ -13,7 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
-// Add services to the container.
+
+
+builder.Services.AddControllers();
+
+
 
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
 	.AddFluentValidation(v => v
@@ -37,7 +41,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-   .AddJwtBearer("Admin", options =>
+   .AddJwtBearer( options =>
    {
 	   options.TokenValidationParameters = new()
 	   {

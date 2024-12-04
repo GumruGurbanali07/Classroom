@@ -25,9 +25,12 @@ namespace ToDoListAPI.Persistence.Repository
 			return Table.AsNoTracking();
 		}
 
-		public async Task<T> GetByIdAsync(string id)
-		{
-			return await Table.FirstOrDefaultAsync(entity => entity.Id == Guid.Parse(id));
+		public async Task<T> GetByIdAsync(string id , bool tracking=true)
+		{ 
+			var query = Table.AsQueryable();
+			if (!tracking)
+				query = Table.AsNoTracking();
+			return await query.FirstOrDefaultAsync(a => a.Id == Guid.Parse(id));
 		}
 	}
 }

@@ -10,6 +10,6 @@ namespace ToDoListAPI.Application.Repository
 	 public interface IReadRepository<T>:IRepository<T> where T : BaseEntity
 	{
 		IQueryable<T> GetAll();
-		Task<T> GetByIdAsync(string id);
+		Task<T> GetByIdAsync(string id, bool tracking = true);
 	}
 }
