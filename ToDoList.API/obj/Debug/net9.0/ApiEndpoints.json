@@ -1,5 +1,58 @@
 [
   {
+    "ContainingType": "ToDoList.API.Controllers.AuthController",
+    "Method": "LoginAsTeacherAsync",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginTeacher",
+        "Type": "ToDoListAPI.Application.DTOs.Teacher.LoginTeacher",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.AuthController",
+    "Method": "RegisterAsTeacher",
+    "RelativePath": "api/Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerTeacher",
+        "Type": "ToDoListAPI.Application.DTOs.Teacher.RegisterTeacher",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.RoleController",
+    "Method": "CreateRole",
+    "RelativePath": "api/Role/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "roleModel",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ToDoList.API.Controllers.StudentController",
     "Method": "Index",
     "RelativePath": "api/Student",
@@ -17,48 +70,6 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ToDoListAPI.Domain.Entities.Teacher, ToDoListAPI.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "LoginAsTeacherAsync",
-    "RelativePath": "api/Teacher/login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "loginTeacher",
-        "Type": "ToDoListAPI.Application.DTOs.Teacher.LoginTeacher",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "RegisterAsTeacher",
-    "RelativePath": "api/Teacher/register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "registerTeacher",
-        "Type": "ToDoListAPI.Application.DTOs.Teacher.RegisterTeacher",
-        "IsRequired": true
-      }
-    ],
     "ReturnTypes": []
   },
   {

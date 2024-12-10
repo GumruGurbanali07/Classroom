@@ -26,29 +26,7 @@ namespace ToDoListAPI.Persistence.Context
 		public DbSet<Grade> Grades { get; set; }
 		public DbSet<StudentTask> StudentTasks { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder builder)
-		{
-			builder.Entity<StudentTask>()
-				.HasKey(x => new { x.StudentId, x.TaskId });
-
-			builder.Entity<StudentTask>()
-				.HasOne(x => x.Student)
-				.WithMany(x => x.StudentTasks)
-				.HasForeignKey(x => x.StudentId);
-
-			builder.Entity<StudentTask>()
-				.HasOne(y => y.Task)
-				.WithMany(y => y.StudentTasks)
-				.HasForeignKey(y => y.TaskId);
-
-			builder.Entity<Task>()
-			   .HasOne(t => t.Teacher)
-			   .WithMany(teacher => teacher.Tasks)
-			   .HasForeignKey(t => t.TeacherId)
-			   .OnDelete(DeleteBehavior.Cascade);
-
-			base.OnModelCreating(builder);
-		}
+		
 
 		public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 		{

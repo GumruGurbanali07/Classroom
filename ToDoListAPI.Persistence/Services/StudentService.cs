@@ -70,7 +70,7 @@ namespace ToDoListAPI.Persistence.Services
 			SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, loginStudent.Password, false);
 			if (result.Succeeded)
 			{
-				T.Token token = _tokenHandler.CreateAccessToken(tokenLifetime, user);
+				T.Token token =await _tokenHandler.CreateAccessToken(tokenLifetime, user);
 				return token;
 			}
 			else

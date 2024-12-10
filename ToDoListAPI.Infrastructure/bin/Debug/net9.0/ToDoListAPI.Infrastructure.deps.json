@@ -942,6 +942,7 @@
       },
       "ToDoListAPI.Domain/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.0",
           "Microsoft.Extensions.Identity.Core": "9.0.0"
         },

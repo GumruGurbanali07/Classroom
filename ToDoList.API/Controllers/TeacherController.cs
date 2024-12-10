@@ -6,11 +6,14 @@ using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
 using ToDoListAPI.Application.Services;
 using ToDoListAPI.Domain.Entities;
+using ToDoListAPI.Domain.Entities.Role;
+
 
 namespace ToDoList.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+
 
 	public class TeacherController : ControllerBase
 	{
@@ -20,60 +23,15 @@ namespace ToDoList.API.Controllers
 		{
 			_teacherService = teacherService;
 		}
-		[HttpPost("register")]
-		public async Task<IActionResult> RegisterAsTeacher([FromBody] RegisterTeacher registerTeacher)
-		{
 
-			try
-			{
-				var response = await _teacherService.RegisterAsTeacherAsync(registerTeacher);
 
-				if (response.Succeeded)
-				{
-					return Ok(response);
-				}
-				else
-				{
-					return BadRequest(response);
-				}
-			}
-			catch (FailedRegisterException ex)
-			{
-				return StatusCode(500, new { Message = ex.Message });
-			}
-		}
-		[HttpPost("login")]
-		public async Task<IActionResult> LoginAsTeacherAsync([FromBody] LoginTeacher loginTeacher)
-		{
-			try
-			{
-				int tokenLifetime = 30;
-				var token = await _teacherService.LoginAsTeacherAsync(loginTeacher, tokenLifetime);
-				return Ok(token);
-			}
-			catch (UserNotFoundException)
-			{
-				return NotFound("User could not found");
-			}
-			catch (UnauthorizedAccessException)
-			{
-				return Unauthorized("Invalid credentials");
-			}
-			catch (Exception ex)
-			{
-
-				return BadRequest(new { ex.Message });
-			}
-		}
-
-		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		[Authorize(AuthenticationSchemes = "Teacher")]
 		[HttpPut("update")]
-
 		public async Task<IActionResult> UpdateTeacherAsync([FromBody] UpdateTeacher updateTeacher)
 		{
 			try
 			{
-				var result = await _teacherService.UpdateTeacherAsync(updateTeacher);
+				var result = await  _teacherService.UpdateTeacherAsync(updateTeacher);
 				if (!result)
 				{
 					return BadRequest(new { message = "Failed to update teacher's information." });
@@ -91,14 +49,14 @@ namespace ToDoList.API.Controllers
 			}
 
 		}
+
+		[Authorize(AuthenticationSchemes = "Teacher")]
 		[HttpGet("getall")]
-		public async Task<ActionResult<IEnumerable<Teacher>>> GetAllTeachersAsync()
+	
+		public async Task<ActionResult> GetAllTeachersAsync()
 		{
 			var teachers = await _teacherService.GetAllTeachersAsync();
-			if (teachers == null)
-			{
-				return NotFound("There are no any teacher");
-			}
+			
 			return Ok(teachers);
 		}
 		[HttpGet("username")]

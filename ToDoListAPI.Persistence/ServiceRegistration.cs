@@ -14,6 +14,8 @@ using ToDoListAPI.Application.Repository;
 using ToDoListAPI.Persistence.Repository;
 using ToDoListAPI.Application.Services;
 using ToDoListAPI.Persistence.Services;
+using ToDoListAPI.Application.Services.Roles;
+using ToDoListAPI.Persistence.Services.Roles;
 
 namespace ToDoListAPI.Persistence
 {
@@ -22,16 +24,22 @@ namespace ToDoListAPI.Persistence
 		public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<AppDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSql")));
-			services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+			services.AddIdentity<AppUser, AppRole>()
+				.AddRoleManager<RoleManager<AppRole>>()
+				.AddEntityFrameworkStores<AppDbContext>();
+
 			services.AddScoped<IStudentReadRepository,StudentReadRepository>();
 			services.AddScoped<IStudentWriteRepository,StudentWriteRepository>();
 			services.AddScoped<ITaskReadRepository,TaskReadRepository>();
 			services.AddScoped<ITaskWriteRepository,TaskWriteRepository>();
 			services.AddScoped<ITeacherReadRepository,TeacherReadRepository>();
 			services.AddScoped<ITeacherWriteRepository, TeacherWriteRepository>();
+			services.AddScoped<IAppUserService, AppUserService > ();
 			services.AddScoped<ITeacherService,TeacherService>();
 			services.AddScoped<IStudentService, StudentService>();
 			services.AddScoped<ITaskService, TaskService>();
+			services.AddScoped<IRoleService,RoleService>();
+			services.AddScoped<IAuthService,AuthService>();
 
 		}
 	}

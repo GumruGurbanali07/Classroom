@@ -10,7 +10,8 @@ namespace ToDoListAPI.Application.Token
 {
 	public interface ITokenHandler
 	{
-		P.Token CreateAccessToken(int minute, AppUser user);
+		Task<P::Token> CreateAccessToken(int second, AppUser appUser);
+		string CreateRefreshToken();
 
 	}
 }

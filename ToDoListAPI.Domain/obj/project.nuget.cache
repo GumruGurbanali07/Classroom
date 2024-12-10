@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "6G36xZhYEnk=",
+  "dgSpecHash": "EOoSvziaCyE=",
   "success": true,
   "projectFilePath": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\ToDoListAPI.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\9.0.0\\microsoft.aspnetcore.cryptography.internal.9.0.0.nupkg.sha512",
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\9.0.0\\microsoft.aspnetcore.cryptography.keyderivation.9.0.0.nupkg.sha512",
+    "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\9.0.0\\microsoft.aspnetcore.identity.entityframeworkcore.9.0.0.nupkg.sha512",
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
     "C:\\Users\\Sheki-S\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",

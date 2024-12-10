@@ -131,7 +131,6 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.AssemblyInfoInputs.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.AssemblyInfo.cs
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.csproj.CoreCompileInputs.cache
-C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.sourcelink.json
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\scopedcss\bundle\ToDoList.API.styles.css
@@ -151,3 +150,4 @@ C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\refint\To
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.pdb
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.genruntimeconfig.cache
 C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ref\ToDoList.API.dll
+C:\Users\Sheki-S\source\repos\To-Do List\ToDoList.API\obj\Debug\net9.0\ToDoList.API.MvcApplicationPartsAssemblyInfo.cs

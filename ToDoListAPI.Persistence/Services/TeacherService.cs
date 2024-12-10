@@ -26,13 +26,16 @@ namespace ToDoListAPI.Persistence.Services
 	public class TeacherService : ITeacherService
 	{
 		private readonly UserManager<AppUser> _userManager;
+		private readonly IAppUserService _appUserService;
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly ITokenHandler _tokenHandler;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly ITeacherReadRepository _teacherReadRepository;
 		private readonly ITeacherWriteRepository _teacherWriteRepository;
 		private readonly AppDbContext _context;
-		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository, AppDbContext context)
+		private readonly RoleManager<AppRole> _roleManager;
+
+		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository, AppDbContext context, RoleManager<AppRole> roleManager, IAppUserService appUserService)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -41,67 +44,11 @@ namespace ToDoListAPI.Persistence.Services
 			_teacherReadRepository = teacherReadRepository;
 			_teacherWriteRepository = teacherWriteRepository;
 			_context = context;
+			_roleManager = roleManager;
+			_appUserService = appUserService;
 		}
 
-		public async Task<RegisterTeacherResponse> RegisterAsTeacherAsync(RegisterTeacher registerTeacher)
-		{
-			if (registerTeacher.Password != registerTeacher.ResetPassword)
-			{
-				return new RegisterTeacherResponse
-				{
-					Message = "Password and ResetPassword do not match",
-					Succeeded = false
-				};
-			}
-
-			var user = new AppUser
-			{
-				Name= registerTeacher.Name,
-				Surname= registerTeacher.Surname,
-				UserName =$"{registerTeacher.Name} {registerTeacher.Surname}",
-				Email = registerTeacher.Gmail,
-				Subject = registerTeacher.Subject,
-			};
-
-			IdentityResult result = await _userManager.CreateAsync(user, registerTeacher.Password);
-			if (!result.Succeeded)
-			{
-				var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-				throw new FailedRegisterException($"User could not register: {errors}");
-			}
-			else
-			{
-				return new RegisterTeacherResponse
-				{
-					Message = "User registered successfully",
-					Succeeded = true
-				};
-			}
-
-		}
-		public async Task<T.Token> LoginAsTeacherAsync(LoginTeacher loginTeacher, int tokenLifetime)
-		{
-			AppUser user = await _userManager.FindByEmailAsync(loginTeacher.Gmail);
-			if (user == null)
-			{
-				throw new UserNotFoundException("User could not found");
-			}
-			SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, loginTeacher.Password, false);
-
-			if (result.Succeeded)
-			{
-				T.Token token = _tokenHandler.CreateAccessToken(tokenLifetime, user);
-				return token;
-			}
-
-			else
-			{
-				throw new UserNotFoundException("User could not found");
-			}
-
-
-		}
-		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
+	public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
 			var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
 			if (string.IsNullOrEmpty(token))
@@ -119,11 +66,7 @@ namespace ToDoListAPI.Persistence.Services
 			{
 				throw new UserNotFoundException("Teacher not found");
 			}
-			teacher.Name = updateTeacher.Name ?? teacher.Name;
-			teacher.Surname = updateTeacher.Surname ?? teacher.Surname;
-			teacher.Subject = updateTeacher.Subject ?? teacher.Subject;
-			teacher.Gmail = updateTeacher.Gmail ?? teacher.Gmail;
-			teacher.Password = updateTeacher.Password ?? teacher.Password;
+			
 
 			var result = _teacherWriteRepository.Update(teacher);
 			return result;
@@ -131,23 +74,19 @@ namespace ToDoListAPI.Persistence.Services
 		}
 		public async Task<IEnumerable<Teacher>> GetAllTeachersAsync()
 		{
-			var teacher = await _teacherReadRepository.GetAll()
-				.Where(x => x.IsActive)
-				.Select(x => new Teacher
-				{
-					Name = x.Name,
-					Surname = x.Surname,
-					Subject = x.Subject,
-					Gmail = x.Gmail,
-				}).ToListAsync();
+			var users = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
+			AppUser user = await _userManager.Users.Include(a=>a.Teacher).FirstOrDefaultAsync(a=>a.Name==users);
+			var teacher = await _teacherReadRepository.GetAll().Include(a=>a.User).OrderBy(a=>a.UserId==user.Id)
+			
+				  .ToListAsync();
+			//yox
 			return teacher;
 		}
-
+	
 		public async Task<Teacher> GetTeacherByIdAsync(string username)
 		{
-			return await _context.Set<Teacher>().FirstOrDefaultAsync(
-				x => (x.Name + x.Surname).Replace(" ", "").Equals(username, StringComparison.OrdinalIgnoreCase));				
-
+			return await _context.Set<Teacher>().FirstOrDefaultAsync();
+			
 		}
 
 		public Task<IEnumerable<Student>> GetStudentForTeacherAsync(string teacherId)
@@ -170,18 +109,6 @@ namespace ToDoListAPI.Persistence.Services
 			throw new NotImplementedException();
 		}
 
-
-
-
-		public Task<bool> LogOut()
-		{
-			throw new NotImplementedException();
-		}
-
-
 		
-		
-
-
 	}
 }

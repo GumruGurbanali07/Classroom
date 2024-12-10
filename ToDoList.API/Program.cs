@@ -41,14 +41,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-   .AddJwtBearer( options =>
+   .AddJwtBearer("Teacher", options =>
    {
 	   options.TokenValidationParameters = new()
 	   {
-		   ValidateAudience =true,
-		   ValidateIssuer =true,
-		   ValidateLifetime =true,
-		   ValidateIssuerSigningKey =true,
+		   ValidateIssuer = false,
+		   ValidateAudience = false,
+		   ValidateLifetime = true,
+		   ValidateIssuerSigningKey = true,
 		   ValidAudience = builder.Configuration["Token:Audience"],
 		   ValidIssuer = builder.Configuration["Token:Issuer"],
 		   IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
@@ -56,6 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		   NameClaimType=ClaimTypes.Name
 	   };
    });
+
 
 
 var app = builder.Build();
@@ -71,6 +72,20 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.Use(async (context, next) =>
+{
+	// Retrieve the username or default to "Anonim"
+	var username = context?.User?.Identity?.IsAuthenticated == true
+		? context?.User?.Identity?.Name
+		: "Anonim";
+
+	
+	
+
+	
+	await next.Invoke();
+});
+
 
 app.MapControllers();
 

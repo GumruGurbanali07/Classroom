@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ToDoListAPI.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+54dd4074764c5ed4c0eb3b668985e812c0b6fa45")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab43b5ff3e0e54d6ab602ff8b85a9905d065a3aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("ToDoListAPI.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ToDoListAPI.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

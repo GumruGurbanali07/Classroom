@@ -5,73 +5,101 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterTeacher"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterTeacher"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterTeacher"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginTeacher"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginTeacher"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginTeacher"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Role/create": {
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "parameters": [
+          {
+            "name": "roleName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roleModel",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/RoleModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Student": {
       "get": {
         "tags": [
           "Student"
         ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Teacher/register": {
-      "post": {
-        "tags": [
-          "Teacher"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterTeacher"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterTeacher"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterTeacher"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Teacher/login": {
-      "post": {
-        "tags": [
-          "Teacher"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginTeacher"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginTeacher"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginTeacher"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -117,33 +145,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Teacher"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Teacher"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Teacher"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -230,179 +232,13 @@
         },
         "additionalProperties": false
       },
-      "Student": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "surname": {
-            "type": "string",
-            "nullable": true
-          },
-          "gmail": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "resetPassword": {
-            "type": "string",
-            "nullable": true
-          },
-          "studentTasks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentTask"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "StudentTask": {
-        "type": "object",
-        "properties": {
-          "studentId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "student": {
-            "$ref": "#/components/schemas/Student"
-          },
-          "taskId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "task": {
-            "$ref": "#/components/schemas/Task"
-          },
-          "deadLine": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "isCompleted": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Task": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "boolean"
-          },
-          "teacherId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "teacher": {
-            "$ref": "#/components/schemas/Teacher"
-          },
-          "studentTasks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentTask"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Teacher": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "surname": {
-            "type": "string",
-            "nullable": true
-          },
-          "subject": {
-            "type": "string",
-            "nullable": true
-          },
-          "gmail": {
-            "type": "string",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "resetPassword": {
-            "type": "string",
-            "nullable": true
-          },
-          "studentTasks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentTask"
-            },
-            "nullable": true
-          },
-          "tasks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Task"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
+      "RoleModel": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "UpdateTeacher": {
         "type": "object",
