@@ -234,11 +234,10 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<DateTime>("RefreshTokenDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("SecurityStamp")
+                    b.Property<string>("ResetPassword")
                         .HasColumnType("text");
 
-                    b.Property<string>("Subject")
-                        .IsRequired()
+                    b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
                     b.Property<string>("Surname")
@@ -368,8 +367,9 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("StudenTasksId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");

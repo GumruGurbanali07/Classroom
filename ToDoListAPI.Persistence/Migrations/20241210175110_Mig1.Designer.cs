@@ -12,8 +12,8 @@ using ToDoListAPI.Persistence.Context;
 namespace ToDoListAPI.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241204180504_Mig4")]
-    partial class Mig4
+    [Migration("20241210175110_Mig1")]
+    partial class Mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,18 +146,12 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<Guid>("StudentTaskId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("StudentTaskStudentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StudentTaskTaskId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentTaskStudentId", "StudentTaskTaskId");
+                    b.HasIndex("StudentTaskId");
 
                     b.ToTable("Grades");
                 });
@@ -178,6 +172,9 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
+
+                    b.Property<int>("RoleModel")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -213,6 +210,10 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -230,10 +231,20 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ResetPassword")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<string>("Subject")
+                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -265,41 +276,29 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Gmail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ResetPassword")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Students");
                 });
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentTask", b =>
                 {
-                    b.Property<Guid>("StudentId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("uuid");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DeadLine")
                         .HasColumnType("timestamp with time zone");
@@ -307,10 +306,21 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("TeacherId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("StudentId", "TaskId");
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("TaskId");
 
@@ -361,37 +371,21 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Gmail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ResetPassword")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Teachers");
                 });
@@ -451,11 +445,22 @@ namespace ToDoListAPI.Persistence.Migrations
                 {
                     b.HasOne("ToDoListAPI.Domain.Entities.StudentTask", "StudentTask")
                         .WithMany()
-                        .HasForeignKey("StudentTaskStudentId", "StudentTaskTaskId")
+                        .HasForeignKey("StudentTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("StudentTask");
+                });
+
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.Student", b =>
+                {
+                    b.HasOne("ToDoListAPI.Domain.Entities.Identity.AppUser", "User")
+                        .WithOne("Student")
+                        .HasForeignKey("ToDoListAPI.Domain.Entities.Student", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentTask", b =>
@@ -490,6 +495,26 @@ namespace ToDoListAPI.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.Teacher", b =>
+                {
+                    b.HasOne("ToDoListAPI.Domain.Entities.Identity.AppUser", "User")
+                        .WithOne("Teacher")
+                        .HasForeignKey("ToDoListAPI.Domain.Entities.Teacher", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.Identity.AppUser", b =>
+                {
+                    b.Navigation("Student")
+                        .IsRequired();
+
+                    b.Navigation("Teacher")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Student", b =>

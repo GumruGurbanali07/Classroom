@@ -199,7 +199,6 @@
           "name",
           "password",
           "resetPassword",
-          "subject",
           "surname"
         ],
         "type": "object",
@@ -209,10 +208,6 @@
             "type": "string"
           },
           "surname": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "subject": {
             "minLength": 1,
             "type": "string"
           },

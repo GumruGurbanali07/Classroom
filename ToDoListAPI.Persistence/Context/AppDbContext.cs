@@ -22,7 +22,6 @@ namespace ToDoListAPI.Persistence.Context
 		public DbSet<Teacher> Teachers { get; set; }
 		public DbSet<Student> Students { get; set; }
 		public DbSet<Task> Tasks { get; set; }
-
 		public DbSet<Grade> Grades { get; set; }
 		public DbSet<StudentTask> StudentTasks { get; set; }
 

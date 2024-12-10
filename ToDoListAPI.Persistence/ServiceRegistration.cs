@@ -16,6 +16,7 @@ using ToDoListAPI.Application.Services;
 using ToDoListAPI.Persistence.Services;
 using ToDoListAPI.Application.Services.Roles;
 using ToDoListAPI.Persistence.Services.Roles;
+using Microsoft.Extensions.Options;
 
 namespace ToDoListAPI.Persistence
 {
@@ -24,7 +25,14 @@ namespace ToDoListAPI.Persistence
 		public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<AppDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgreSql")));
-			services.AddIdentity<AppUser, AppRole>()
+			services.AddIdentity<AppUser, AppRole>(options =>
+			{
+				options.Password.RequiredLength = 6;
+				options.Password.RequireLowercase = true;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = true;
+				options.Password.RequireDigit = true;
+			})
 				.AddRoleManager<RoleManager<AppRole>>()
 				.AddEntityFrameworkStores<AppDbContext>();
 

@@ -13,8 +13,8 @@ namespace ToDoListAPI.Application.DTOs.Teacher
 		public string Name { get; set; }
 		[Required]
 		public string Surname { get; set; }
-		[Required]
-		public string Subject { get; set; }
+	
+	
 		[Required]
 		[EmailAddress(ErrorMessage = "Email type is not true")]
 		public string Gmail { get; set; }

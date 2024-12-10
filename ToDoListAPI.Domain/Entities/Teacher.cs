@@ -15,7 +15,7 @@ namespace ToDoListAPI.Domain.Entities
 
 		public AppUser User { get; set; }
 		public string UserId { get; set; }
-
+		public string Subject { get; set; }
 		public ICollection<StudentTask> StudentTasks { get; set; }		
 		public ICollection<Task> Tasks { get; set; }
 	

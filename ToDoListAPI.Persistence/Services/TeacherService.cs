@@ -20,6 +20,7 @@ using System.Security.Claims;
 using ToDoListAPI.Application.Repository;
 using Microsoft.EntityFrameworkCore;
 using ToDoListAPI.Persistence.Context;
+using Task = ToDoListAPI.Domain.Entities.Task;
 
 namespace ToDoListAPI.Persistence.Services
 {
@@ -76,10 +77,9 @@ namespace ToDoListAPI.Persistence.Services
 		{
 			var users = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
 			AppUser user = await _userManager.Users.Include(a=>a.Teacher).FirstOrDefaultAsync(a=>a.Name==users);
-			var teacher = await _teacherReadRepository.GetAll().Include(a=>a.User).OrderBy(a=>a.UserId==user.Id)
-			
-				  .ToListAsync();
-			//yox
+			var teacher = await _teacherReadRepository.GetAll().Include(a=>a.User).OrderBy(a=>a.UserId==user.Id).ToListAsync();
+
+
 			return teacher;
 		}
 	
@@ -97,7 +97,7 @@ namespace ToDoListAPI.Persistence.Services
 		{
 			throw new NotImplementedException();
 		}
-		public Task<IEnumerable<Domain.Entities.Task>> GetAssignedTasksForTeacherAsync(string teacherId)
+		public Task<IEnumerable<Task>> GetAssignedTasksForTeacherAsync(string teacherId)
 		{
 			throw new NotImplementedException();
 		}
