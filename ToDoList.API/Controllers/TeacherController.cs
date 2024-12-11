@@ -55,9 +55,19 @@ namespace ToDoList.API.Controllers
 	
 		public async Task<ActionResult> GetAllTeachersAsync()
 		{
-			var teachers = await _teacherService.GetAllTeachersAsync();
-			
-			return Ok(teachers);
+			try
+			{
+				var teachers = await _teacherService.GetAllTeachersAsync();
+				return Ok(teachers);
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				return Unauthorized(new { message = ex.Message });
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new { message = ex.Message });
+			}
 		}
 		[HttpGet("username")]
 		public async Task<IActionResult> GetTeacherByUsernameAsync(string username)

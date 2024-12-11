@@ -53,7 +53,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		   ValidIssuer = builder.Configuration["Token:Issuer"],
 		   IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
 		   LifetimeValidator=(notBefore,expires,securityToken,validationParameters)=>expires!=null?expires>DateTime.UtcNow:false,
-		   NameClaimType=ClaimTypes.Name
+		   NameClaimType=ClaimTypes.Name,
+		   RoleClaimType=ClaimTypes.Role,
 	   };
    });
 
@@ -74,15 +75,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.Use(async (context, next) =>
 {
-	// Retrieve the username or default to "Anonim"
 	var username = context?.User?.Identity?.IsAuthenticated == true
 		? context?.User?.Identity?.Name
 		: "Anonim";
-
-	
-	
-
-	
 	await next.Invoke();
 });
 

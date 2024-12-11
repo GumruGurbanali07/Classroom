@@ -49,7 +49,7 @@ namespace ToDoListAPI.Persistence.Services
 			_appUserService = appUserService;
 		}
 
-	public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
+		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
 			var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
 			if (string.IsNullOrEmpty(token))
@@ -67,8 +67,27 @@ namespace ToDoListAPI.Persistence.Services
 			{
 				throw new UserNotFoundException("Teacher not found");
 			}
-			
-
+			if (!string.IsNullOrEmpty(updateTeacher.Name))
+			{
+				teacher.User.Name=updateTeacher.Name;
+			}
+			if (!string.IsNullOrEmpty(updateTeacher.Surname))
+			{
+				teacher.User.Surname=updateTeacher.Surname;
+			}
+			if (!string.IsNullOrEmpty(updateTeacher.Subject))
+			{
+				teacher.Subject= updateTeacher.Subject;
+			}
+			if (!string.IsNullOrEmpty(updateTeacher.NewGmail))
+			{
+				teacher.User.Email=updateTeacher.NewGmail;
+			}
+			if (!string.IsNullOrEmpty(updateTeacher.NewPassword))
+			{
+				var passwordHasher = new PasswordHasher<AppUser>();
+				teacher.User.PasswordHash=passwordHasher.HashPassword(teacher.User, updateTeacher.NewPassword);
+			}
 			var result = _teacherWriteRepository.Update(teacher);
 			return result;
 
@@ -76,17 +95,27 @@ namespace ToDoListAPI.Persistence.Services
 		public async Task<IEnumerable<Teacher>> GetAllTeachersAsync()
 		{
 			var users = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
-			AppUser user = await _userManager.Users.Include(a=>a.Teacher).FirstOrDefaultAsync(a=>a.Name==users);
-			var teacher = await _teacherReadRepository.GetAll().Include(a=>a.User).OrderBy(a=>a.UserId==user.Id).ToListAsync();
+			if (!string.IsNullOrEmpty(users))
+			{
+				throw new UnauthorizedAccessException("User is not authenticated");
+			}
 
-
+			AppUser user = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.Name == users);
+			if(user == null)
+			{
+				throw new UnauthorizedAccessException("User not found");
+			}
+			var teacher = await _teacherReadRepository.GetAll()
+				.Include(a => a.User)
+				.OrderBy(a => a.UserId == user.Id)
+				.ToListAsync();
 			return teacher;
 		}
-	
+
 		public async Task<Teacher> GetTeacherByIdAsync(string username)
 		{
 			return await _context.Set<Teacher>().FirstOrDefaultAsync();
-			
+
 		}
 
 		public Task<IEnumerable<Student>> GetStudentForTeacherAsync(string teacherId)
@@ -102,13 +131,11 @@ namespace ToDoListAPI.Persistence.Services
 			throw new NotImplementedException();
 		}
 
-		
-
 		public Task<IDictionary<string, TaskStatus>> GetStudentTasksStatusAsync(string teacherId)
 		{
 			throw new NotImplementedException();
 		}
 
-		
+
 	}
 }

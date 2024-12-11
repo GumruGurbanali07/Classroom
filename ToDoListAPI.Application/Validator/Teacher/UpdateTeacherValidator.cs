@@ -17,11 +17,11 @@ public class UpdateTeacherValidator : AbstractValidator<UpdateTeacher>
 		RuleFor(x => x.Subject)
 			.NotEmpty().WithMessage("Subject is required.");
 
-		RuleFor(x => x.Gmail)
+		RuleFor(x => x.NewGmail)
 			.NotEmpty().WithMessage("Gmail is required.")
 			.EmailAddress().WithMessage("Email type is not true.");
 
-		RuleFor(x => x.Password)
+		RuleFor(x => x.NewPassword)
 			.NotEmpty().WithMessage("Password is required.")
 			.MinimumLength(6).WithMessage("Password must be min 6 characters.");
 	}

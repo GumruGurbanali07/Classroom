@@ -211,6 +211,10 @@
             "minLength": 1,
             "type": "string"
           },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
           "gmail": {
             "minLength": 1,
             "type": "string",
@@ -254,11 +258,11 @@
             "type": "string",
             "nullable": true
           },
-          "gmail": {
+          "newGmail": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "newPassword": {
             "type": "string",
             "nullable": true
           }

@@ -11,8 +11,8 @@ public class RegisterTeacherValidator : AbstractValidator<RegisterTeacher>
 		RuleFor(x => x.Surname)
 			.NotEmpty().WithMessage("Surname is required.");
 
-		//RuleFor(x => x.Subject)
-		//	.NotEmpty().WithMessage("Subject is required.");
+		RuleFor(x => x.Subject)
+			.NotEmpty().WithMessage("Subject is required.");
 
 		RuleFor(x => x.Gmail)
 			.NotEmpty().WithMessage("Gmail is required.")

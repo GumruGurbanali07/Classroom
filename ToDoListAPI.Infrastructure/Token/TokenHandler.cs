@@ -32,7 +32,11 @@ namespace ToDoListAPI.Infrastructure.Token
 				expires: token.Expiration,
 				notBefore: DateTime.UtcNow,
 				signingCredentials: signingCredentials,
-				claims: new List<Claim> { new Claim(ClaimTypes.Name, appUser.UserName) }
+				claims: new List<Claim> {
+					
+					new Claim(ClaimTypes.Name, appUser.UserName),
+					new Claim(ClaimTypes.Role, "Teacher")
+				}
 			);
 
 
@@ -40,7 +44,6 @@ namespace ToDoListAPI.Infrastructure.Token
 			JwtSecurityTokenHandler tokenHandler = new();
 
 			token.AccessToken = tokenHandler.WriteToken(securityToken);
-
 			token.RefreshToken = CreateRefreshToken(); ;
 
 
