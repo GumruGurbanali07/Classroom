@@ -11,6 +11,7 @@ namespace ToDoListAPI.Application.Services
 {
 	public interface ITeacherService
 	{
+		Task<bool> CreateTeacher(CreateTeacher	 createTeacher);
 		Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher);
 		Task<IEnumerable<Teacher>> GetAllTeachersAsync();
 		Task<Teacher> GetTeacherByIdAsync(string id);

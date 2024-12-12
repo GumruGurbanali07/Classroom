@@ -13,8 +13,9 @@ namespace ToDoListAPI.Domain.Entities
 	public class Teacher : BaseEntity
 	{
 
-		public AppUser User { get; set; }
+		public AppUser User { get; set; }		
 		public string UserId { get; set; }
+		public string Username {  get; set; } 
 		public string Subject { get; set; }
 		public ICollection<StudentTask> StudentTasks { get; set; }		
 		public ICollection<Task> Tasks { get; set; }

@@ -20,9 +20,12 @@ namespace ToDoListAPI.Persistence.Repository
 		}
 
 		public DbSet<T> Table => _context.Set<T>();
-		public IQueryable<T> GetAll()
+		public IQueryable<T> GetAll(bool tracking = true)
 		{
-			return Table.AsNoTracking();
+			var query = Table.AsQueryable();
+			if (!tracking)
+				query = Table.AsNoTracking();
+			return query;
 		}
 
 		public async Task<T> GetByIdAsync(string id , bool tracking=true)

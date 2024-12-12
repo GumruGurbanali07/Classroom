@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ToDoListAPI.Application.DTOs.Student;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
 using ToDoListAPI.Application.Services;
@@ -11,11 +12,34 @@ namespace ToDoList.API.Controllers
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
-		readonly private IAuthService? _authService; 
+		readonly private IAuthService? _authService;
+		readonly private IStudentService _studentService;
 
-		public AuthController(IAuthService? authService)
+		public AuthController(IAuthService? authService, IStudentService studentService)
 		{
 			_authService = authService;
+			_studentService = studentService;
+		}
+		[HttpPost("student/register")]
+	    public async Task<IActionResult> RegisterAsStudent(RegisterStudent registerStudent)
+		{
+			try
+			{
+				var response = await _studentService.RegisterStudentAsync(registerStudent);
+
+				if (response.Succeded)
+				{
+					return Ok(response);
+				}
+				else
+				{
+					return BadRequest(response);
+				}
+			}
+			catch (FailedRegisterException ex)
+			{
+				return StatusCode(500, new { Message = ex.Message });
+			}
 		}
 		[HttpPost("register")]
 		public async Task<IActionResult> RegisterAsTeacher([FromBody] RegisterTeacher registerTeacher)

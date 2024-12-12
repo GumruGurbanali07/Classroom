@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoListAPI.Application.DTOs.Student;
+using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
 using ToDoListAPI.Application.Services;
 using ToDoListAPI.Application.Token;
 using ToDoListAPI.Domain.Entities;
 using ToDoListAPI.Domain.Entities.Identity;
+using ToDoListAPI.Domain.Entities.Role;
 using T = ToDoListAPI.Application.DTOs;
 
 namespace ToDoListAPI.Persistence.Services
@@ -19,12 +21,14 @@ namespace ToDoListAPI.Persistence.Services
 		private readonly UserManager<AppUser> _userManager;
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly ITokenHandler _tokenHandler;
+		private readonly RoleManager<AppRole> _roleManager;
 
-		public StudentService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
+		public StudentService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, RoleManager<AppRole> roleManager)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_tokenHandler = tokenHandler;
+			_roleManager = roleManager;
 		}
 
 		public async Task<RegisterStudentResponse> RegisterStudentAsync(RegisterStudent registerStudent)
@@ -37,13 +41,16 @@ namespace ToDoListAPI.Persistence.Services
 					Succeded = false
 				};
 			}
+			var email = await _userManager.FindByEmailAsync(registerStudent.Gmail);
+			if (email != null) throw new FailedRegisterException(" Email is already registered.");
 
 			var user = new AppUser
 			{
+				Id= Guid.NewGuid().ToString(),
 				Name= registerStudent.Name,
 				Surname= registerStudent.Surname,
-				UserName = $"{registerStudent.Name} {registerStudent.Surname}",
-				Email=registerStudent.Gmail
+				UserName = $"{registerStudent.Name}.{registerStudent.Surname}",
+				Email = registerStudent.Gmail
 			};
 			IdentityResult result = await _userManager.CreateAsync(user, registerStudent.Password);
 			if (!result.Succeeded)
@@ -53,6 +60,14 @@ namespace ToDoListAPI.Persistence.Services
 			}
 			else
 			{
+				if (!await _roleManager.RoleExistsAsync(RoleModel.Student.ToString()))
+				{
+
+					await _roleManager.CreateAsync(new AppRole { Name = RoleModel.Student.ToString() });
+				}
+
+				await _userManager.AddToRoleAsync(user, RoleModel.Student.ToString());
+				
 				return new RegisterStudentResponse
 				{
 					Message = "User registered Successfully",

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using ToDoListAPI.Infrastructure;
+using ToDoListAPI.Domain.Entities.Role;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
@@ -41,19 +42,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-   .AddJwtBearer("Teacher", options =>
+   .AddJwtBearer(RoleModel.Teacher.ToString(), RoleModel.Student.ToString(),  options =>
    {
 	   options.TokenValidationParameters = new()
 	   {
-		   ValidateIssuer = false,
-		   ValidateAudience = false,
+		   ValidateIssuer = true,
+		   ValidateAudience = true,
 		   ValidateLifetime = true,
 		   ValidateIssuerSigningKey = true,
 		   ValidAudience = builder.Configuration["Token:Audience"],
 		   ValidIssuer = builder.Configuration["Token:Issuer"],
 		   IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
-		   LifetimeValidator=(notBefore,expires,securityToken,validationParameters)=>expires!=null?expires>DateTime.UtcNow:false,
-		   NameClaimType=ClaimTypes.Name,
+		   LifetimeValidator = (notBefore, expires, securityToken, validationParameters) =>
+	 expires.HasValue && expires > DateTime.UtcNow,
+		   NameClaimType =ClaimTypes.Name,
 		   RoleClaimType=ClaimTypes.Role,
 	   };
    });
@@ -73,15 +75,15 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.Use(async (context, next) =>
-{
-	var username = context?.User?.Identity?.IsAuthenticated == true
-		? context?.User?.Identity?.Name
-		: "Anonim";
-	await next.Invoke();
-});
+//app.Use(async (context, next) =>
+//{
+//	var username = context?.User?.Identity?.IsAuthenticated == true
+//		? context?.User?.Identity?.Name
+//		: "Anonim";
+//	await next.Invoke();
+//});
 
-
+//davam 
 app.MapControllers();
 
 app.Run();

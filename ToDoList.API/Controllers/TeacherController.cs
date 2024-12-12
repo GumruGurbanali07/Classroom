@@ -25,6 +25,26 @@ namespace ToDoList.API.Controllers
 		}
 
 
+		[HttpPost]
+		public async Task<IActionResult> Create(CreateTeacher createTeacher)
+		{
+			try
+			{
+				var result = await _teacherService.CreateTeacher(createTeacher);
+				if (!result)
+				{
+					return BadRequest(new { message = "Failed to create teacher's information." });
+				}
+
+				return Ok(new { message = "Teacher's information create successfully." });
+			}
+			
+			catch (Exception ex)
+			{
+				return BadRequest(new { ex.Message });
+			}
+		}
+
 		[Authorize(AuthenticationSchemes = "Teacher")]
 		[HttpPut("update")]
 		public async Task<IActionResult> UpdateTeacherAsync([FromBody] UpdateTeacher updateTeacher)
@@ -50,7 +70,12 @@ namespace ToDoList.API.Controllers
 
 		}
 
-		[Authorize(AuthenticationSchemes = "Teacher")]
+
+		
+
+
+
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
 		[HttpGet("getall")]
 	
 		public async Task<ActionResult> GetAllTeachersAsync()

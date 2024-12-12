@@ -49,6 +49,8 @@ namespace ToDoListAPI.Persistence.Services
 				};
 			}
 
+			var email = await _userManager.FindByEmailAsync(registerTeacher.Gmail);
+			if (email != null) throw new FailedRegisterException(" Email is already registered.");
 			var user = new AppUser
 			{
 				Id = Guid.NewGuid().ToString(),
@@ -96,26 +98,28 @@ namespace ToDoListAPI.Persistence.Services
 
 		public async Task<T.Token> LoginAsTeacherAsync(LoginTeacher loginTeacher, int accesTokenLifeTime)
 		{
+			
 			AppUser user = await _userManager.FindByEmailAsync(loginTeacher.Gmail);
 			if (user == null)
 			{
-				throw new UserNotFoundException("User could not found");
+				throw new UserNotFoundException("User could not be found");
 			}
+
+			
 			SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, loginTeacher.Password, false);
-
-			if (result.Succeeded)
+			if (!result.Succeeded)
 			{
-				T::Token? token = await _tokenHandler.CreateAccessToken(900, user);
-				await _appUserService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 900);
-				return token;
+				throw new UnauthorizedAccessException("Invalid credentials");
 			}
 
-			else
-			{
-				throw new UserNotFoundException("User could not found");
-			}
+		
 
+			
+			T.Token? token = await _tokenHandler.CreateAccessToken(accesTokenLifeTime, user);
 
+			
+			await _appUserService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, accesTokenLifeTime);
+			return token;
 		}
 
 		public async Task<Token> RefreshTokenLogin(string refreshToken)

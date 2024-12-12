@@ -21,6 +21,7 @@ using ToDoListAPI.Application.Repository;
 using Microsoft.EntityFrameworkCore;
 using ToDoListAPI.Persistence.Context;
 using Task = ToDoListAPI.Domain.Entities.Task;
+using ToDoListAPI.Domain.Entities.Role;
 
 namespace ToDoListAPI.Persistence.Services
 {
@@ -49,8 +50,32 @@ namespace ToDoListAPI.Persistence.Services
 			_appUserService = appUserService;
 		}
 
+
+		public async Task<bool> CreateTeacher(CreateTeacher createTeacher)
+		{
+			
+			AppUser appUser = await _userManager.FindByIdAsync(createTeacher.UserId) ??  throw new Exception("Not Found");
+
+			var isRoleTeacher =await _userManager.IsInRoleAsync(appUser, RoleModel.Teacher.ToString());
+
+			if (isRoleTeacher!=null)
+			{
+				Teacher teacher = new Teacher()
+				{
+					UserId = createTeacher.UserId,
+					Subject = createTeacher.Subject,
+					Username=appUser.UserName
+				};
+				await _teacherWriteRepository.AddAsnyc(teacher);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			throw new Exception("Not Found");
+		}
+
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
+			
 			var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
 			if (string.IsNullOrEmpty(token))
 			{
@@ -67,27 +92,10 @@ namespace ToDoListAPI.Persistence.Services
 			{
 				throw new UserNotFoundException("Teacher not found");
 			}
-			if (!string.IsNullOrEmpty(updateTeacher.Name))
-			{
-				teacher.User.Name=updateTeacher.Name;
-			}
-			if (!string.IsNullOrEmpty(updateTeacher.Surname))
-			{
-				teacher.User.Surname=updateTeacher.Surname;
-			}
-			if (!string.IsNullOrEmpty(updateTeacher.Subject))
-			{
-				teacher.Subject= updateTeacher.Subject;
-			}
-			if (!string.IsNullOrEmpty(updateTeacher.NewGmail))
-			{
-				teacher.User.Email=updateTeacher.NewGmail;
-			}
-			if (!string.IsNullOrEmpty(updateTeacher.NewPassword))
-			{
-				var passwordHasher = new PasswordHasher<AppUser>();
-				teacher.User.PasswordHash=passwordHasher.HashPassword(teacher.User, updateTeacher.NewPassword);
-			}
+
+			teacher.Subject = updateTeacher.Subject;
+			teacher.UserId = teacher.UserId;
+
 			var result = _teacherWriteRepository.Update(teacher);
 			return result;
 
@@ -95,19 +103,19 @@ namespace ToDoListAPI.Persistence.Services
 		public async Task<IEnumerable<Teacher>> GetAllTeachersAsync()
 		{
 			var users = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
-			if (!string.IsNullOrEmpty(users))
+			if (string.IsNullOrEmpty(users))
 			{
 				throw new UnauthorizedAccessException("User is not authenticated");
 			}
 
-			AppUser user = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.Name == users);
-			if(user == null)
+			AppUser user = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.UserName == users);
+			if (user == null)
 			{
-				throw new UnauthorizedAccessException("User not found");
+				throw new Exception("User not found");
 			}
 			var teacher = await _teacherReadRepository.GetAll()
 				.Include(a => a.User)
-				.OrderBy(a => a.UserId == user.Id)
+				.Where(a => a.UserId == user.Id)
 				.ToListAsync();
 			return teacher;
 		}

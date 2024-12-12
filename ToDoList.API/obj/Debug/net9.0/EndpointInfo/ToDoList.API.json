@@ -5,6 +5,37 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Auth/student/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterStudent"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterStudent"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterStudent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Auth/register": {
       "post": {
         "tags": [
@@ -107,6 +138,37 @@
         }
       }
     },
+    "/api/Teacher": {
+      "post": {
+        "tags": [
+          "Teacher"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTeacher"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTeacher"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTeacher"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Teacher/update": {
       "put": {
         "tags": [
@@ -174,6 +236,20 @@
   },
   "components": {
     "schemas": {
+      "CreateTeacher": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginTeacher": {
         "required": [
           "gmail",
@@ -188,6 +264,40 @@
           },
           "password": {
             "minLength": 6,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegisterStudent": {
+        "required": [
+          "gmail",
+          "name",
+          "password",
+          "resetPassword",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "gmail": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "minLength": 6,
+            "type": "string"
+          },
+          "resetPassword": {
+            "minLength": 1,
             "type": "string"
           }
         },
@@ -244,25 +354,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
             "nullable": true
           },
-          "surname": {
+          "userId": {
             "type": "string",
             "nullable": true
           },
           "subject": {
-            "type": "string",
-            "nullable": true
-          },
-          "newGmail": {
-            "type": "string",
-            "nullable": true
-          },
-          "newPassword": {
             "type": "string",
             "nullable": true
           }

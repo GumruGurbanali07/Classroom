@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ToDoListAPI.Application.Token;
 using ToDoListAPI.Domain.Entities.Identity;
+using ToDoListAPI.Domain.Entities.Role;
 using C = ToDoListAPI.Application.DTOs;
 namespace ToDoListAPI.Infrastructure.Token
 {
@@ -32,10 +33,9 @@ namespace ToDoListAPI.Infrastructure.Token
 				expires: token.Expiration,
 				notBefore: DateTime.UtcNow,
 				signingCredentials: signingCredentials,
-				claims: new List<Claim> {
-					
+				claims: new List<Claim> {					
 					new Claim(ClaimTypes.Name, appUser.UserName),
-					new Claim(ClaimTypes.Role, "Teacher")
+				
 				}
 			);
 
@@ -44,7 +44,7 @@ namespace ToDoListAPI.Infrastructure.Token
 			JwtSecurityTokenHandler tokenHandler = new();
 
 			token.AccessToken = tokenHandler.WriteToken(securityToken);
-			token.RefreshToken = CreateRefreshToken(); ;
+			token.RefreshToken = CreateRefreshToken() ;
 
 
 			return Task.FromResult(token);

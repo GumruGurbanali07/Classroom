@@ -32,6 +32,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ToDoList.API.Controllers.AuthController",
+    "Method": "RegisterAsStudent",
+    "RelativePath": "api/Auth/student/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerStudent",
+        "Type": "ToDoListAPI.Application.DTOs.Student.RegisterStudent",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ToDoList.API.Controllers.RoleController",
     "Method": "CreateRole",
     "RelativePath": "api/Role/create",
@@ -60,6 +76,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "Create",
+    "RelativePath": "api/Teacher",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createTeacher",
+        "Type": "ToDoListAPI.Application.DTOs.Teacher.CreateTeacher",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
