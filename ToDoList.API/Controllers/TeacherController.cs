@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
 using ToDoListAPI.Application.Services;
@@ -25,7 +26,7 @@ namespace ToDoList.API.Controllers
 		}
 
 
-		[HttpPost]
+		[HttpPost("create")]
 		public async Task<IActionResult> Create(CreateTeacher createTeacher)
 		{
 			try
@@ -45,7 +46,7 @@ namespace ToDoList.API.Controllers
 			}
 		}
 
-		[Authorize(AuthenticationSchemes = "Teacher")]
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
 		[HttpPut("update")]
 		public async Task<IActionResult> UpdateTeacherAsync([FromBody] UpdateTeacher updateTeacher)
 		{
@@ -76,8 +77,7 @@ namespace ToDoList.API.Controllers
 
 
 		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
-		[HttpGet("getall")]
-	
+		[HttpGet("getall")]	
 		public async Task<ActionResult> GetAllTeachersAsync()
 		{
 			try
@@ -94,15 +94,31 @@ namespace ToDoList.API.Controllers
 				return BadRequest(new { message = ex.Message });
 			}
 		}
-		[HttpGet("username")]
-		public async Task<IActionResult> GetTeacherByUsernameAsync(string username)
+
+		[Authorize(AuthenticationSchemes =nameof(RoleModel.Teacher))]
+		[HttpGet("GetTeacherByUserId/{userId}")]
+		public  async Task<IActionResult> GetTeacherByIdAsync(string userId)
 		{
-			var teacher = await _teacherService.GetTeacherByIdAsync(username);
-			if (teacher == null)
+			try
 			{
-				return NotFound();
+				var teacher = await _teacherService.GetTeacherByUserIdAsync(userId);
+				if(teacher == null)
+				{
+					return NotFound("Teacher not found");
+				}
+				return Ok(teacher);
 			}
-			return Ok(teacher);
+			catch(UnauthorizedAccessException ex)
+			{
+				return Unauthorized(new {message=ex.Message});
+			}
+			catch(Exception ex)
+			{
+				return BadRequest(new {message=ex.Message});
+			}
 		}
+
+
+	
 	}
 }

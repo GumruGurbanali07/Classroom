@@ -25,13 +25,13 @@ namespace ToDoListAPI.Persistence.Repository
 		public async Task<bool> AddAsnyc(T model)
 		{
 			EntityEntry<T> entry=await Table.AddAsync(model);
-			await _context.SaveChangesAsync();
+			
 			return entry.State==EntityState.Added;
 		}
 		public bool Remove(T model)
 		{
 			EntityEntry<T> entry=Table.Remove(model);
-			_context.SaveChanges();
+			
 			return entry.State==EntityState.Deleted;
 		}
 		public  async Task<bool> RemoveAsync(string id)
@@ -50,7 +50,7 @@ namespace ToDoListAPI.Persistence.Repository
 		public  bool Update(T model)
 		{
 			EntityEntry<T> entry= Table.Update(model);
-			_context.SaveChanges();
+			//_context.SaveChanges();
 			return entry.State==EntityState.Modified;
 		}
 	}

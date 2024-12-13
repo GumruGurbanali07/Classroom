@@ -1,8 +1,24 @@
 [
   {
     "ContainingType": "ToDoList.API.Controllers.AuthController",
+    "Method": "RegisterAsStudent",
+    "RelativePath": "api/Auth/student/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerStudent",
+        "Type": "ToDoListAPI.Application.DTOs.Student.RegisterStudent",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.AuthController",
     "Method": "LoginAsTeacherAsync",
-    "RelativePath": "api/Auth/login",
+    "RelativePath": "api/Auth/teacher/login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,7 +34,7 @@
   {
     "ContainingType": "ToDoList.API.Controllers.AuthController",
     "Method": "RegisterAsTeacher",
-    "RelativePath": "api/Auth/register",
+    "RelativePath": "api/Auth/teacher/register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -26,22 +42,6 @@
       {
         "Name": "registerTeacher",
         "Type": "ToDoListAPI.Application.DTOs.Teacher.RegisterTeacher",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.AuthController",
-    "Method": "RegisterAsStudent",
-    "RelativePath": "api/Auth/student/register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "registerStudent",
-        "Type": "ToDoListAPI.Application.DTOs.Student.RegisterStudent",
         "IsRequired": true
       }
     ],
@@ -81,7 +81,7 @@
   {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
     "Method": "Create",
-    "RelativePath": "api/Teacher",
+    "RelativePath": "api/Teacher/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -106,6 +106,22 @@
   },
   {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "GetTeacherByIdAsync",
+    "RelativePath": "api/Teacher/GetTeacherByUserId/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
     "Method": "UpdateTeacherAsync",
     "RelativePath": "api/Teacher/update",
     "HttpMethod": "PUT",
@@ -116,22 +132,6 @@
         "Name": "updateTeacher",
         "Type": "ToDoListAPI.Application.DTOs.Teacher.UpdateTeacher",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "GetTeacherByUsernameAsync",
-    "RelativePath": "api/Teacher/username",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "username",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

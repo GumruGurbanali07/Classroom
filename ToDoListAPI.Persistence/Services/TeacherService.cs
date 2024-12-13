@@ -22,6 +22,7 @@ using Microsoft.EntityFrameworkCore;
 using ToDoListAPI.Persistence.Context;
 using Task = ToDoListAPI.Domain.Entities.Task;
 using ToDoListAPI.Domain.Entities.Role;
+using ToDoListAPI.Application.DTOs.Teacher;
 
 namespace ToDoListAPI.Persistence.Services
 {
@@ -53,18 +54,18 @@ namespace ToDoListAPI.Persistence.Services
 
 		public async Task<bool> CreateTeacher(CreateTeacher createTeacher)
 		{
-			
-			AppUser appUser = await _userManager.FindByIdAsync(createTeacher.UserId) ??  throw new Exception("Not Found");
 
-			var isRoleTeacher =await _userManager.IsInRoleAsync(appUser, RoleModel.Teacher.ToString());
+			AppUser appUser = await _userManager.FindByIdAsync(createTeacher.UserId) ?? throw new Exception("Not Found");
 
-			if (isRoleTeacher!=null)
+			var isRoleTeacher = await _userManager.IsInRoleAsync(appUser, RoleModel.Teacher.ToString());
+
+			if (isRoleTeacher != null)
 			{
 				Teacher teacher = new Teacher()
 				{
 					UserId = createTeacher.UserId,
 					Subject = createTeacher.Subject,
-					Username=appUser.UserName
+					Username = appUser.UserName
 				};
 				await _teacherWriteRepository.AddAsnyc(teacher);
 				await _context.SaveChangesAsync();
@@ -75,15 +76,15 @@ namespace ToDoListAPI.Persistence.Services
 
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
-			
+
 			var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
 			if (string.IsNullOrEmpty(token))
 			{
 				throw new UnauthorizedAccessException("Authorization token is missing.");
 			}
 
-			var currentTeacherId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-			if (currentTeacherId == null || currentTeacherId != updateTeacher.Id.ToString())
+			var currentTeacherId = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
+			if (string.IsNullOrEmpty(currentTeacherId))
 			{
 				throw new UnauthorizedAccessException("You are not authorized to update this teacher's information");
 			}
@@ -92,17 +93,18 @@ namespace ToDoListAPI.Persistence.Services
 			{
 				throw new UserNotFoundException("Teacher not found");
 			}
-
+			teacher.Id = Guid.Parse(updateTeacher.Id);
 			teacher.Subject = updateTeacher.Subject;
 			teacher.UserId = teacher.UserId;
 
 			var result = _teacherWriteRepository.Update(teacher);
-			return result;
+			await _teacherWriteRepository.SaveAsync();
 
+			return result;
 		}
-		public async Task<IEnumerable<Teacher>> GetAllTeachersAsync()
+		public async Task<IEnumerable<object>> GetAllTeachersAsync()
 		{
-			var users = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
+			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
 			if (string.IsNullOrEmpty(users))
 			{
 				throw new UnauthorizedAccessException("User is not authenticated");
@@ -113,16 +115,48 @@ namespace ToDoListAPI.Persistence.Services
 			{
 				throw new Exception("User not found");
 			}
-			var teacher = await _teacherReadRepository.GetAll()
-				.Include(a => a.User)
-				.Where(a => a.UserId == user.Id)
-				.ToListAsync();
-			return teacher;
+
+			var teachers = await _teacherReadRepository.GetAll()
+			.Include(a => a.User)
+			 .Select(a => new
+			 {
+				 Username = a.User.Name,
+				 Subject = a.Subject
+			 })
+			  .ToListAsync();
+
+			return teachers;
 		}
 
-		public async Task<Teacher> GetTeacherByIdAsync(string username)
+		public async Task<GetByIdTeacher> GetTeacherByUserIdAsync(string userId)
 		{
-			return await _context.Set<Teacher>().FirstOrDefaultAsync();
+			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
+			if (string.IsNullOrEmpty(users))
+			{
+				throw new UnauthorizedAccessException("User is not authenticated");
+			}
+			AppUser user = await _userManager.Users.Include(x => x.Teacher).FirstOrDefaultAsync(x => x.UserName == users);
+			if (user == null)
+			{
+				throw new Exception("User not found");
+			}
+			var teacher = await _teacherReadRepository.GetByUserIdAsync(userId);
+			if (teacher == null)
+			{
+				throw new Exception("Teacher  not found");
+			}
+			var relatedUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == teacher.UserId);
+			if (relatedUser == null)
+			{
+				throw new Exception("Related user not found");
+			}
+			return new GetByIdTeacher
+			{
+				Username=teacher.User.Name,
+				Gmail=teacher.User.Email,
+				Subject=teacher.Subject				
+			};
+
 
 		}
 

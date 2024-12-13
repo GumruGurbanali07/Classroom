@@ -36,7 +36,7 @@
         }
       }
     },
-    "/api/Auth/register": {
+    "/api/Auth/teacher/register": {
       "post": {
         "tags": [
           "Auth"
@@ -67,7 +67,7 @@
         }
       }
     },
-    "/api/Auth/login": {
+    "/api/Auth/teacher/login": {
       "post": {
         "tags": [
           "Auth"
@@ -138,7 +138,7 @@
         }
       }
     },
-    "/api/Teacher": {
+    "/api/Teacher/create": {
       "post": {
         "tags": [
           "Teacher"
@@ -212,15 +212,16 @@
         }
       }
     },
-    "/api/Teacher/username": {
+    "/api/Teacher/GetTeacherByUserId/{userId}": {
       "get": {
         "tags": [
           "Teacher"
         ],
         "parameters": [
           {
-            "name": "username",
-            "in": "query",
+            "name": "userId",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }

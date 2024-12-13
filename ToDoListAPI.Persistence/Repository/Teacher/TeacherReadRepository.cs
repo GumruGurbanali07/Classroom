@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,11 @@ namespace ToDoListAPI.Persistence.Repository
 	{
 		public TeacherReadRepository(AppDbContext context) : base(context)
 		{
+		}
+
+		public async Task<Teacher> GetByUserIdAsync(string userId)
+		{
+			return await _context.Teachers.FirstOrDefaultAsync(x => x.UserId == userId);
 		}
 	}
 }

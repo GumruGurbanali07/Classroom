@@ -31,69 +31,7 @@ namespace ToDoListAPI.Persistence.Services
 			_roleManager = roleManager;
 		}
 
-		public async Task<RegisterStudentResponse> RegisterStudentAsync(RegisterStudent registerStudent)
-		{
-			if (registerStudent.Password != registerStudent.ResetPassword)
-			{
-				return new RegisterStudentResponse
-				{
-					Message = "Password and ResetPassword don't match",
-					Succeded = false
-				};
-			}
-			var email = await _userManager.FindByEmailAsync(registerStudent.Gmail);
-			if (email != null) throw new FailedRegisterException(" Email is already registered.");
-
-			var user = new AppUser
-			{
-				Id= Guid.NewGuid().ToString(),
-				Name= registerStudent.Name,
-				Surname= registerStudent.Surname,
-				UserName = $"{registerStudent.Name}.{registerStudent.Surname}",
-				Email = registerStudent.Gmail
-			};
-			IdentityResult result = await _userManager.CreateAsync(user, registerStudent.Password);
-			if (!result.Succeeded)
-			{
-				var errors=string.Join(", ",result.Errors.Select(e=>e.Description));
-				throw new FailedRegisterException($"User could not register: {errors}");
-			}
-			else
-			{
-				if (!await _roleManager.RoleExistsAsync(RoleModel.Student.ToString()))
-				{
-
-					await _roleManager.CreateAsync(new AppRole { Name = RoleModel.Student.ToString() });
-				}
-
-				await _userManager.AddToRoleAsync(user, RoleModel.Student.ToString());
-				
-				return new RegisterStudentResponse
-				{
-					Message = "User registered Successfully",
-					Succeded=true
-				};
-			}
-		}
-		public async Task<T.Token> LoginStudentAsync(LoginStudent loginStudent, int tokenLifetime)
-		{
-			AppUser user = await _userManager.FindByEmailAsync(loginStudent.Gmail);
-			if(user == null)
-			{
-				throw new UserNotFoundException("User could not found");
-			}
-			SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, loginStudent.Password, false);
-			if (result.Succeeded)
-			{
-				T.Token token =await _tokenHandler.CreateAccessToken(tokenLifetime, user);
-				return token;
-			}
-			else
-			{
-				throw new UserNotFoundException("User could not found");
-			}
-		}
-
+	
 		public Task<IEnumerable<Student>> GetAllStudentAsync()
 		{
 			throw new NotImplementedException();

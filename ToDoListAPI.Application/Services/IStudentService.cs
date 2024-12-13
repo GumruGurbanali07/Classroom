@@ -12,8 +12,7 @@ namespace ToDoListAPI.Application.Services
 {
 	public interface IStudentService
 	{
-		public Task<RegisterStudentResponse> RegisterStudentAsync(RegisterStudent createStudent);
-		public Task<T.Token> LoginStudentAsync(LoginStudent loginStudent, int tokenLifetime);
+	
 		public Task<Student> UpdateStudentAsync(UpdateStudent updateStudent);
 		Task<IEnumerable<Student>> GetAllStudentAsync();
 		Task<Student> GetStudentByIdAsync(string id);
@@ -22,6 +21,6 @@ namespace ToDoListAPI.Application.Services
 		Task<IEnumerable<Teacher>> GetTeacherForStudentAsync(string studentId);
 		Task<bool> RemoveTeacherFromStudentAsync(string studentId, string teacherId);
 
-		Task<bool> LogOut();
+	
 	}
 }

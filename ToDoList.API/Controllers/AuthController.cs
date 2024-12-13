@@ -21,11 +21,11 @@ namespace ToDoList.API.Controllers
 			_studentService = studentService;
 		}
 		[HttpPost("student/register")]
-	    public async Task<IActionResult> RegisterAsStudent(RegisterStudent registerStudent)
+	    public async Task<IActionResult> RegisterAsStudent([FromBody]RegisterStudent registerStudent)
 		{
 			try
 			{
-				var response = await _studentService.RegisterStudentAsync(registerStudent);
+				var response = await _authService.RegisterAsStudentAsync(registerStudent);
 
 				if (response.Succeded)
 				{
@@ -41,7 +41,12 @@ namespace ToDoList.API.Controllers
 				return StatusCode(500, new { Message = ex.Message });
 			}
 		}
-		[HttpPost("register")]
+		[HttpPost("student/login")]
+		public Task<IActionResult> LoginAsStudent([FromBody]LoginStudent loginStudent)
+		{
+
+		}
+		[HttpPost("teacher/register")]
 		public async Task<IActionResult> RegisterAsTeacher([FromBody] RegisterTeacher registerTeacher)
 		{
 
@@ -63,7 +68,7 @@ namespace ToDoList.API.Controllers
 				return StatusCode(500, new { Message = ex.Message });
 			}
 		}
-		[HttpPost("login")]
+		[HttpPost("teacher/login")]
 		public async Task<IActionResult> LoginAsTeacherAsync([FromBody] LoginTeacher loginTeacher)
 		{
 			try

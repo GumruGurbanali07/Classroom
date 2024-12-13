@@ -9,5 +9,6 @@ namespace ToDoListAPI.Application.Repository
 {
 	public interface ITeacherReadRepository:IReadRepository<Teacher>
 	{
+		Task<Teacher> GetByUserIdAsync(string userId);
 	}
 }

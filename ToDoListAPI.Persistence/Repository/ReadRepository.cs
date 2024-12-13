@@ -12,7 +12,7 @@ namespace ToDoListAPI.Persistence.Repository
 {
 	public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
 	{
-		private readonly AppDbContext _context;
+		public readonly AppDbContext _context;
 
 		public ReadRepository(AppDbContext context)
 		{
