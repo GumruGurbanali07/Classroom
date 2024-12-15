@@ -15,7 +15,8 @@ namespace ToDoListAPI.Application.Services
 		Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher);
 		Task<IEnumerable<object>> GetAllTeachersAsync();
 		Task<GetByIdTeacher> GetTeacherByUserIdAsync(string userId);
-		Task<IEnumerable<Student>> GetStudentForTeacherAsync(string teacherId);
+		Task<bool> AddStudentToTeacherAsync(string studentId, string teacherId);
+		Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId);
 		Task<bool> RemoveStudentFromTeacherAsync(string teacherId, string studentId);
 		Task<IEnumerable<Task>> GetAssignedTasksForTeacherAsync(string teacherId);
 		Task<IDictionary<string, TaskStatus>> GetStudentTasksStatusAsync(string teacherId);

@@ -25,8 +25,10 @@ namespace ToDoListAPI.Persistence.Services
 		private readonly ITeacherReadRepository _teacherReadRepository;
 		private readonly ITeacherWriteRepository _teacherWriteRepository;
 		private readonly RoleManager<AppRole> _roleManager;
+		private readonly IStudentReadRepository _studentReadRepository;
+		private readonly IStudentWriteRepository _studentWriteRepository;
 
-		public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager = null, RoleManager<AppRole> roleManager = null, ITeacherWriteRepository teacherWriteRepository = null, ITeacherReadRepository teacherReadRepository=null , IHttpContextAccessor httpContextAccessor = null, ITokenHandler tokenHandler = null, IAppUserService appUserService = null)
+		public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager = null, RoleManager<AppRole> roleManager = null, ITeacherWriteRepository teacherWriteRepository = null, ITeacherReadRepository teacherReadRepository = null, IHttpContextAccessor httpContextAccessor = null, ITokenHandler tokenHandler = null, IAppUserService appUserService = null, IStudentReadRepository studentReadRepository = null, IStudentWriteRepository studentWriteRepository = null)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -36,10 +38,12 @@ namespace ToDoListAPI.Persistence.Services
 			_httpContextAccessor = httpContextAccessor;
 			_tokenHandler = tokenHandler;
 			_appUserService = appUserService;
+			_studentReadRepository = studentReadRepository;
+			_studentWriteRepository = studentWriteRepository;
 		}
 
 
-		
+
 		public async Task<RegisterTeacherResponse> RegisterAsTeacherAsync(RegisterTeacher registerTeacher)
 		{
 			if (registerTeacher.Password != registerTeacher.ResetPassword)
@@ -50,7 +54,6 @@ namespace ToDoListAPI.Persistence.Services
 					Succeeded = false
 				};
 			}
-
 			var email = await _userManager.FindByEmailAsync(registerTeacher.Gmail);
 			if (email != null) throw new FailedRegisterException(" Email is already registered.");
 			var user = new AppUser
@@ -61,12 +64,9 @@ namespace ToDoListAPI.Persistence.Services
 				UserName = $"{registerTeacher.Name}.{registerTeacher.Surname}",
 				Email = registerTeacher.Gmail,
 				
-			};
-
-			
+			};		
 
 			IdentityResult result = await _userManager.CreateAsync(user, registerTeacher.Password);
-
 
 			if (!result.Succeeded)
 			{
@@ -131,12 +131,12 @@ namespace ToDoListAPI.Persistence.Services
 			{
 				return new RegisterStudentResponse
 				{
-					Message = "Password and ResetPassword don't match",
+					Message = "Password and ResetPassword do not match",
 					Succeded = false
 				};
 			}
 			var email = await _userManager.FindByEmailAsync(registerStudent.Gmail);
-			if (email != null) throw new FailedRegisterException(" Email is already registered.");
+			if (email != null) throw new FailedRegisterException("Email is already registered.");
 
 			var user = new AppUser
 			{
@@ -144,48 +144,54 @@ namespace ToDoListAPI.Persistence.Services
 				Name = registerStudent.Name,
 				Surname = registerStudent.Surname,
 				UserName = $"{registerStudent.Name}.{registerStudent.Surname}",
-				Email = registerStudent.Gmail
+				Email = registerStudent.Gmail,
 			};
+
 			IdentityResult result = await _userManager.CreateAsync(user, registerStudent.Password);
 			if (!result.Succeeded)
 			{
 				var errors = string.Join(", ", result.Errors.Select(e => e.Description));
 				throw new FailedRegisterException($"User could not register: {errors}");
 			}
-			else
+
+			if (!await _roleManager.RoleExistsAsync("Student"))
 			{
-				if (!await _roleManager.RoleExistsAsync(RoleModel.Student.ToString()))
-				{
-
-					await _roleManager.CreateAsync(new AppRole { Name = RoleModel.Student.ToString() });
-				}
-
-				await _userManager.AddToRoleAsync(user, RoleModel.Student.ToString());
-
-				return new RegisterStudentResponse
-				{
-					Message = "User registered Successfully",
-					Succeded = true
-				};
+				await _roleManager.CreateAsync(new AppRole { Name = "Student" });
 			}
+			await _userManager.AddToRoleAsync(user, "Student");
+
+			var student = new Student
+			{
+				UserId = user.Id,				
+				Username = $"{registerStudent.Name}.{registerStudent.Surname}"
+			};
+			await _studentWriteRepository.AddAsnyc(student);
+			await _studentWriteRepository.SaveAsync();
+
+			return new RegisterStudentResponse
+			{
+				Message = "User registered successfully and role assigned",
+				Succeded = true
+			};
 		}
-		public async Task<T.Token> LoginAsStudentAsync(LoginStudent loginStudent, int tokenLifetime)
-		{
+
+		public async Task<T.Token> LoginAsStudentAsync(LoginStudent loginStudent, int accesTokenLifeTime)
+		{			
 			AppUser user = await _userManager.FindByEmailAsync(loginStudent.Gmail);
 			if (user == null)
 			{
-				throw new UserNotFoundException("User could not found");
-			}
+				throw new UserNotFoundException("User could not be found");
+			}		
 			SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, loginStudent.Password, false);
-			if (result.Succeeded)
+			if (!result.Succeeded)
 			{
-				T.Token token = await _tokenHandler.CreateAccessToken(tokenLifetime, user);
-				return token;
-			}
-			else
-			{
-				throw new UserNotFoundException("User could not found");
-			}
+				throw new UnauthorizedAccessException("Invalid credentials");
+			}			
+			T.Token? token = await _tokenHandler.CreateAccessToken(accesTokenLifeTime, user);
+			
+			await _appUserService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, accesTokenLifeTime);
+
+			return token;
 		}
 
 

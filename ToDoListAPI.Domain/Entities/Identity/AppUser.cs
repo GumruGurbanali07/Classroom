@@ -17,7 +17,6 @@ namespace ToDoListAPI.Domain.Entities.Identity
 		[DataType(DataType.Password)]
 		public string? ResetPassword { get; set; }
 		
-		
 
 		public string? RefreshToken { get; set; }
 		public DateTime RefreshTokenDate { get; set; }

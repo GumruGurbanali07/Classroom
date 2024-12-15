@@ -1,6 +1,22 @@
 [
   {
     "ContainingType": "ToDoList.API.Controllers.AuthController",
+    "Method": "LoginAsStudentAsync",
+    "RelativePath": "api/Auth/student/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginStudent",
+        "Type": "ToDoListAPI.Application.DTOs.Student.LoginStudent",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.AuthController",
     "Method": "RegisterAsStudent",
     "RelativePath": "api/Auth/student/register",
     "HttpMethod": "POST",
@@ -70,17 +86,49 @@
   },
   {
     "ContainingType": "ToDoList.API.Controllers.StudentController",
-    "Method": "Index",
-    "RelativePath": "api/Student",
-    "HttpMethod": "GET",
+    "Method": "CreateStudent",
+    "RelativePath": "api/Student/create",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "createStudent",
+        "Type": "ToDoListAPI.Application.DTOs.Student.CreateStudent",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "Create",
+    "Method": "GetStudentsForTeacher",
+    "RelativePath": "api/Teacher/allstudents/{teacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacherId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "CreateTeacher",
     "RelativePath": "api/Teacher/create",
     "HttpMethod": "POST",
     "IsController": true,

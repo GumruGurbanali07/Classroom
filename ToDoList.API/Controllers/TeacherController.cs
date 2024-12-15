@@ -27,7 +27,7 @@ namespace ToDoList.API.Controllers
 
 
 		[HttpPost("create")]
-		public async Task<IActionResult> Create(CreateTeacher createTeacher)
+		public async Task<IActionResult> CreateTeacher(CreateTeacher createTeacher)
 		{
 			try
 			{
@@ -119,6 +119,29 @@ namespace ToDoList.API.Controllers
 		}
 
 
-	
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		[HttpGet("allstudents/{teacherId}")]
+		public async Task<ActionResult<IEnumerable<object>>> GetStudentsForTeacher(string teacherId)
+		{
+			try
+			{
+				var students = await _teacherService.GetAllStudentsForTeacherAsync(teacherId);
+				if (students == null)
+				{
+					return NotFound("No students found for this teacher.");
+				}
+				return Ok(students);
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				return Unauthorized(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
+			}
+		}
+
+
 	}
 }

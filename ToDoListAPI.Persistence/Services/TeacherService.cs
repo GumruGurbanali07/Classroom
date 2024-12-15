@@ -55,11 +55,11 @@ namespace ToDoListAPI.Persistence.Services
 		public async Task<bool> CreateTeacher(CreateTeacher createTeacher)
 		{
 
-			AppUser appUser = await _userManager.FindByIdAsync(createTeacher.UserId) ?? throw new Exception("Not Found");
+			AppUser appUser = await _userManager.FindByIdAsync(createTeacher.UserId) ?? throw new Exception("User Not Found");
 
 			var isRoleTeacher = await _userManager.IsInRoleAsync(appUser, RoleModel.Teacher.ToString());
 
-			if (isRoleTeacher != null)
+			if (isRoleTeacher)
 			{
 				Teacher teacher = new Teacher()
 				{
@@ -71,7 +71,7 @@ namespace ToDoListAPI.Persistence.Services
 				await _context.SaveChangesAsync();
 				return true;
 			}
-			throw new Exception("Not Found");
+			throw new Exception("User is Not Teacher");
 		}
 
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
@@ -152,17 +152,51 @@ namespace ToDoListAPI.Persistence.Services
 			}
 			return new GetByIdTeacher
 			{
-				Username=teacher.User.Name,
-				Gmail=teacher.User.Email,
-				Subject=teacher.Subject				
+				Username = teacher.User.Name,
+				Gmail = teacher.User.Email,
+				Subject = teacher.Subject
 			};
 
 
 		}
-
-		public Task<IEnumerable<Student>> GetStudentForTeacherAsync(string teacherId)
+		public async Task<bool> AddStudentToTeacherAsync(string studentId, string teacherId)
 		{
-			throw new NotImplementedException();
+			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
+			if (string.IsNullOrEmpty(users))
+			{
+				throw new UnauthorizedAccessException("User is not authenticated");
+			}
+
+			AppUser user = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.UserName == users);
+			if (user == null)
+			{
+				throw new Exception("User not found");
+			}
+
+		}
+
+		public async Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId)
+		{
+			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
+			if (string.IsNullOrEmpty(users))
+			{
+				throw new Exception("User Not Found");
+			}
+			AppUser user = await _userManager.Users.Include(x => x.Teacher).FirstOrDefaultAsync(x => x.UserName == users);
+			if (user == null)
+			{
+				throw new Exception("User Not Found");
+			}
+			var students = await _context.StudentTeachers
+	   .Where(st => st.Teacher.UserId == user.Id)
+	   .Select(st => new
+	   {
+		   Username = st.Student.Username,
+		   Gmail = st.Student.User.Email
+	   })
+	   .ToListAsync();
+
+			return students;
 		}
 		public Task<bool> RemoveStudentFromTeacherAsync(string teacherId, string studentId)
 		{

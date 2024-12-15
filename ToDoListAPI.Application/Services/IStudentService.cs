@@ -12,7 +12,7 @@ namespace ToDoListAPI.Application.Services
 {
 	public interface IStudentService
 	{
-	
+	    public Task<bool> CreateStudent(CreateStudent createStudent);
 		public Task<Student> UpdateStudentAsync(UpdateStudent updateStudent);
 		Task<IEnumerable<Student>> GetAllStudentAsync();
 		Task<Student> GetStudentByIdAsync(string id);

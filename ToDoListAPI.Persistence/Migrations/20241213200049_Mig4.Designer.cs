@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ToDoListAPI.Persistence.Context;
@@ -11,9 +12,11 @@ using ToDoListAPI.Persistence.Context;
 namespace ToDoListAPI.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213200049_Mig4")]
+    partial class Mig4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,21 +332,6 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.ToTable("StudentTasks");
                 });
 
-            modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentTeacher", b =>
-                {
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("StudentId", "TeacherId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("StudentTeachers");
-                });
-
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Task", b =>
                 {
                     b.Property<Guid>("Id")
@@ -505,25 +493,6 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentTeacher", b =>
-                {
-                    b.HasOne("ToDoListAPI.Domain.Entities.Student", "Student")
-                        .WithMany("StudentTeachers")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ToDoListAPI.Domain.Entities.Teacher", "Teacher")
-                        .WithMany("StudentTeachers")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Task", b =>
                 {
                     b.HasOne("ToDoListAPI.Domain.Entities.Teacher", "Teacher")
@@ -558,8 +527,6 @@ namespace ToDoListAPI.Persistence.Migrations
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Student", b =>
                 {
                     b.Navigation("StudentTasks");
-
-                    b.Navigation("StudentTeachers");
                 });
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Task", b =>
@@ -570,8 +537,6 @@ namespace ToDoListAPI.Persistence.Migrations
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Teacher", b =>
                 {
                     b.Navigation("StudentTasks");
-
-                    b.Navigation("StudentTeachers");
 
                     b.Navigation("Tasks");
                 });

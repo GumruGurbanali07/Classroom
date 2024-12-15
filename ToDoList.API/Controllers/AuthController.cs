@@ -20,8 +20,9 @@ namespace ToDoList.API.Controllers
 			_authService = authService;
 			_studentService = studentService;
 		}
+
 		[HttpPost("student/register")]
-	    public async Task<IActionResult> RegisterAsStudent([FromBody]RegisterStudent registerStudent)
+		public async Task<IActionResult> RegisterAsStudent([FromBody] RegisterStudent registerStudent)
 		{
 			try
 			{
@@ -41,11 +42,30 @@ namespace ToDoList.API.Controllers
 				return StatusCode(500, new { Message = ex.Message });
 			}
 		}
-		[HttpPost("student/login")]
-		public Task<IActionResult> LoginAsStudent([FromBody]LoginStudent loginStudent)
-		{
 
+		[HttpPost("student/login")]
+		public async Task<IActionResult> LoginAsStudentAsync([FromBody] LoginStudent loginStudent)
+		{
+			try
+			{
+				var token = await _authService.LoginAsStudentAsync(loginStudent, 900);
+				return Ok(token);
+			}
+			catch (UserNotFoundException)
+			{
+				return NotFound("User could not found");
+			}
+			catch (UnauthorizedAccessException)
+			{
+				return Unauthorized("Invalid credentials");
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new { ex.Message });
+			}
 		}
+
+
 		[HttpPost("teacher/register")]
 		public async Task<IActionResult> RegisterAsTeacher([FromBody] RegisterTeacher registerTeacher)
 		{
@@ -73,7 +93,7 @@ namespace ToDoList.API.Controllers
 		{
 			try
 			{
-			
+
 				var token = await _authService.LoginAsTeacherAsync(loginTeacher, 900);
 				return Ok(token);
 			}
