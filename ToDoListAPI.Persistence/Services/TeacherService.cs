@@ -76,7 +76,6 @@ namespace ToDoListAPI.Persistence.Services
 
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
-
 			var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"];
 			if (string.IsNullOrEmpty(token))
 			{
@@ -167,12 +166,25 @@ namespace ToDoListAPI.Persistence.Services
 				throw new UnauthorizedAccessException("User is not authenticated");
 			}
 
-			AppUser user = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.UserName == users);
-			if (user == null)
+			AppUser teacher = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.UserName == users);
+			if (teacher == null)
 			{
-				throw new Exception("User not found");
+				throw new Exception("Teacher not found");
+			}
+			AppUser student = await _userManager.Users.Include(x => x.Student).FirstOrDefaultAsync(x => x.UserName == users);
+			if (student == null)
+			{
+				throw new Exception("Student not found");
 			}
 
+			var studentTeacher = new StudentTeacher
+			{
+				TeacherId = ,
+				StudentId = 
+			};
+			await _teacherWriteRepository.AddAsnyc(studentTeacher);
+			await _teacherWriteRepository.SaveAsync();
+			return true;
 		}
 
 		public async Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId)
@@ -188,13 +200,13 @@ namespace ToDoListAPI.Persistence.Services
 				throw new Exception("User Not Found");
 			}
 			var students = await _context.StudentTeachers
-	   .Where(st => st.Teacher.UserId == user.Id)
-	   .Select(st => new
-	   {
-		   Username = st.Student.Username,
-		   Gmail = st.Student.User.Email
-	   })
-	   .ToListAsync();
+	        .Where(st => st.Teacher.UserId == user.Id)
+	        .Select(st => new
+	            {
+		          Username = st.Student.Username,
+		         Gmail = st.Student.User.Email
+	           })
+	        .ToListAsync();
 
 			return students;
 		}

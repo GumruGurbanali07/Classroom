@@ -39,10 +39,6 @@
       "RelativeMoniker": "D:0:0:{B45E3552-BDA3-4D7B-AD21-80BA072182B4}|ToDoListAPI.Application\\ToDoListAPI.Application.csproj|solutionrelative:todolistapi.application\\services\\istudentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F08E65E1-5905-4DF5-BE9B-434D79953129}|ToDoListAPI.Persistence\\ToDoListAPI.Persistence.csproj|c:\\users\\sheki-s\\source\\repos\\to-do list\\todolistapi.persistence\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F08E65E1-5905-4DF5-BE9B-434D79953129}|ToDoListAPI.Persistence\\ToDoListAPI.Persistence.csproj|solutionrelative:todolistapi.persistence\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -81,6 +77,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{F08E65E1-5905-4DF5-BE9B-434D79953129}|ToDoListAPI.Persistence\\ToDoListAPI.Persistence.csproj|c:\\users\\sheki-s\\source\\repos\\to-do list\\todolistapi.persistence\\repository\\student\\studentreadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F08E65E1-5905-4DF5-BE9B-434D79953129}|ToDoListAPI.Persistence\\ToDoListAPI.Persistence.csproj|solutionrelative:todolistapi.persistence\\repository\\student\\studentreadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F08E65E1-5905-4DF5-BE9B-434D79953129}|ToDoListAPI.Persistence\\ToDoListAPI.Persistence.csproj|c:\\users\\sheki-s\\source\\repos\\to-do list\\todolistapi.persistence\\migrations\\20241215085718_mig5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F08E65E1-5905-4DF5-BE9B-434D79953129}|ToDoListAPI.Persistence\\ToDoListAPI.Persistence.csproj|solutionrelative:todolistapi.persistence\\migrations\\20241215085718_mig5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -103,8 +103,7 @@
               "ViewState": "AgIAAAsAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T07:15:31.313Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -117,8 +116,7 @@
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABEAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T07:15:36.048Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -128,7 +126,7 @@
               "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Services\\TeacherService.cs",
               "ToolTip": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Services\\TeacherService.cs",
               "RelativeToolTip": "ToDoListAPI.Persistence\\Services\\TeacherService.cs",
-              "ViewState": "AgIAAJoAAAAAAAAAAAAmwK4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKAAAAAAAAAAAAAowLEAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T07:18:15.193Z",
               "IsPinned": true,
@@ -136,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "StudentService.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Services\\StudentService.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Services\\StudentService.cs",
@@ -145,8 +143,7 @@
               "ViewState": "AgIAAC0AAAAAAAAAAAAQwEEAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T07:18:04.135Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -159,12 +156,11 @@
               "ViewState": "AgIAAHUAAAAAAAAAAAAUwIAAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T07:26:56.654Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 15,
               "Title": "StudentController.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoList.API\\Controllers\\StudentController.cs",
               "RelativeDocumentMoniker": "ToDoList.API\\Controllers\\StudentController.cs",
@@ -173,34 +169,7 @@
               "ViewState": "AgIAABEAAAAAAAAAAAAcwBkAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T07:27:14.633Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "20241215085718_Mig5.cs",
-              "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
-              "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
-              "ToolTip": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
-              "RelativeToolTip": "ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:57:18.638Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "StudentTeacher.cs",
-              "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
-              "RelativeDocumentMoniker": "ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
-              "ToolTip": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
-              "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:48:01.024Z",
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -224,6 +193,30 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "20241215085718_Mig5.cs",
+              "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
+              "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
+              "ToolTip": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
+              "RelativeToolTip": "ToDoListAPI.Persistence\\Migrations\\20241215085718_Mig5.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T08:57:18.638Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "StudentTeacher.cs",
+              "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
+              "RelativeDocumentMoniker": "ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
+              "ToolTip": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
+              "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\StudentTeacher.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T08:48:01.024Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 6,
               "Title": "Student.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\Entities\\Student.cs",
@@ -232,8 +225,7 @@
               "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\Student.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:49:07.863Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:49:07.863Z"
             },
             {
               "$type": "Document",
@@ -245,8 +237,7 @@
               "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\Identity\\AppUser.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAQwBkAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:49:22.46Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:49:22.46Z"
             },
             {
               "$type": "Document",
@@ -258,8 +249,7 @@
               "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\Teacher.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAQwBAAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:49:13.033Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:49:13.033Z"
             },
             {
               "$type": "Document",
@@ -271,12 +261,11 @@
               "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\Common\\BaseEntity.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAIwAoAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:55:15.355Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T08:55:15.355Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Context\\AppDbContext.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Context\\AppDbContext.cs",
@@ -284,12 +273,11 @@
               "RelativeToolTip": "ToDoListAPI.Persistence\\Context\\AppDbContext.cs",
               "ViewState": "AgIAACYAAAAAAAAAAAAcwDgAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:48:45.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T08:48:45.497Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 11,
               "Title": "CreateStudent.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Application\\DTOs\\Student\\CreateStudent.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Application\\DTOs\\Student\\CreateStudent.cs",
@@ -297,12 +285,11 @@
               "RelativeToolTip": "ToDoListAPI.Application\\DTOs\\Student\\CreateStudent.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:17:09.444Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:17:09.444Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 12,
               "Title": "StudentWriteRepository.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Repository\\Student\\StudentWriteRepository.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Repository\\Student\\StudentWriteRepository.cs",
@@ -310,12 +297,11 @@
               "RelativeToolTip": "ToDoListAPI.Persistence\\Repository\\Student\\StudentWriteRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:36:40.689Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:36:40.689Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 13,
               "Title": "ReadRepository.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Repository\\ReadRepository.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Repository\\ReadRepository.cs",
@@ -323,12 +309,11 @@
               "RelativeToolTip": "ToDoListAPI.Persistence\\Repository\\ReadRepository.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAiwBgAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:36:42.347Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:36:42.347Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 14,
               "Title": "RoleModel.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\Entities\\Role\\RoleModel.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Domain\\Entities\\Role\\RoleModel.cs",
@@ -336,12 +321,11 @@
               "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\Role\\RoleModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:43:39.958Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T08:43:39.958Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 16,
               "Title": "CreateTeacher.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Application\\DTOs\\Teacher\\CreateTeacher.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Application\\DTOs\\Teacher\\CreateTeacher.cs",
@@ -349,12 +333,11 @@
               "RelativeToolTip": "ToDoListAPI.Application\\DTOs\\Teacher\\CreateTeacher.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:16:00.684Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:16:00.684Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 17,
               "Title": "Task.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Domain\\Entities\\Task.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Domain\\Entities\\Task.cs",
@@ -362,12 +345,11 @@
               "RelativeToolTip": "ToDoListAPI.Domain\\Entities\\Task.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:59:37.011Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:59:37.011Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 18,
               "Title": "StudentReadRepository.cs",
               "DocumentMoniker": "C:\\Users\\Sheki-S\\source\\repos\\To-Do List\\ToDoListAPI.Persistence\\Repository\\Student\\StudentReadRepository.cs",
               "RelativeDocumentMoniker": "ToDoListAPI.Persistence\\Repository\\Student\\StudentReadRepository.cs",
@@ -375,8 +357,7 @@
               "RelativeToolTip": "ToDoListAPI.Persistence\\Repository\\Student\\StudentReadRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T07:36:38.697Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T07:36:38.697Z"
             }
           ]
         }
