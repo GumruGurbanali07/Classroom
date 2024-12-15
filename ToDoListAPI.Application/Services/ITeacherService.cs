@@ -18,7 +18,7 @@ namespace ToDoListAPI.Application.Services
 		Task<GetByIdTeacher> GetTeacherByUserIdAsync(string userId);
 		Task<bool> AddStudentToTeacherAsync(CreateTeacherStudent createTeacherStudent);
 		Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId);
-		Task<bool> RemoveStudentFromTeacherAsync(string teacherId, string studentId);
+		Task<bool> RemoveStudentFromTeacherAsync(RemoveTeacherStudent removeTeacherStudent);
 		
 
 	}

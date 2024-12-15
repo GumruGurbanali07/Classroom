@@ -143,7 +143,24 @@ namespace ToDoList.API.Controllers
 				return StatusCode((int)HttpStatusCode.BadRequest,  ex.Message);
 			}
 		}
-		
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		[HttpPost("removestudent")]
+		public async Task<IActionResult> RemoveStudent([FromBody] RemoveTeacherStudent removeTeacherStudent)
+		{
+			try
+			{
+				var students = await _teacherService.RemoveStudentFromTeacherAsync(removeTeacherStudent);
+				if (students == null)
+				{
+					return NotFound("No students found for this teacher.");
+				}
+				return Ok(students);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode((int)HttpStatusCode.BadRequest, ex.Message);
+			}
+		}
 
 	}
 }

@@ -152,7 +152,8 @@ namespace ToDoListAPI.Persistence.Services
 		{
 			var isStudentTeacher = await _studentTeacherReadRepository.GetAll().AnyAsync(a => a.TeacherId == Guid.Parse(createTeacherStudent.teacherId) && a.StudentId != Guid.Parse(createTeacherStudent.studentId));
 
-			if (isStudentTeacher) {
+			if (isStudentTeacher)
+			{
 
 				StudentTeacher studentTeacher = new StudentTeacher()
 				{
@@ -186,19 +187,37 @@ namespace ToDoListAPI.Persistence.Services
 
 			var students = await _teacherReadRepository.GetAll().Where(a => a.Id == Guid.Parse(teacherId)).Include(a => a.User).ThenInclude(a => new AppUser()
 			{
-				UserName= a.UserName,
-				Email= a.Email
+				UserName = a.UserName,
+				Email = a.Email
 			}).ToListAsync();
-		
+
 
 			return students;
 		}
-		public Task<bool> RemoveStudentFromTeacherAsync(string teacherId, string studentId)
+		public async Task<bool> RemoveStudentFromTeacherAsync(RemoveTeacherStudent removeTeacherStudent)
 		{
-			throw new NotImplementedException();
-		}
-		
+			var teacherGuid = Guid.Parse(removeTeacherStudent.teacherId);
+			var studentGuid = Guid.Parse(removeTeacherStudent.studentId);
 
-		
+			// Müəllim və tələbə əlaqəsini yoxlamaq
+			var studentTeacher = await _studentTeacherReadRepository
+				.GetAll()
+				.FirstOrDefaultAsync(x => x.TeacherId == teacherGuid && x.StudentId == studentGuid);
+
+			// Əgər belə bir tələbə-müəllim əlaqəsi yoxdursa, istisna at
+			if (studentTeacher == null)
+			{
+				throw new UserNotFoundException("Student not found for the specified teacher.");
+			}
+
+			// Əlaqəni silmək
+			await _studentTeacherWriteRepository.RemoveAsync(studentTeacher.Id.ToString());
+			await _studentTeacherWriteRepository.SaveAsync();
+
+			return true;
+		}
+
+
+
 	}
 }
