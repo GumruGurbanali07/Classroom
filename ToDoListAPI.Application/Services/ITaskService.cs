@@ -16,6 +16,9 @@ namespace ToDoListAPI.Application.Services
 		Task<IEnumerable<Task>> GetAllTasksForTeacherAsync();
 		Task<IEnumerable<Task>> GetAllTasksForStudentAsync();
 		Task<IEnumerable<Task>> GetOverdueTasksAsync(string teacherId);//vaxti kecmis tasklar	
+		Task<IEnumerable<Task>> GetAssignedTasksForTeacherAsync(string teacherId); // Müəllimə təyin olunan tapşırıqlar
+		Task<IEnumerable<Task>> GetAssignedTasksForStudentAsync(string studentId); // Tələbəyə təyin olunan tapşırıqlar
+		Task<IDictionary<string, TaskStatus>> GetStudentTasksStatusAsync(string teacherId); // Müəllim üçün tələbələrin tapşırıq vəziyyətləri    
 		Task<bool> SubmitTaskAsync(string taskId);
 		Task<Task> CreateTaskAsync(CreateTask createTaskDTO);//t
 		Task<Task> UpdateTaskAsync(UpdateTask updateTaskDTO);//t

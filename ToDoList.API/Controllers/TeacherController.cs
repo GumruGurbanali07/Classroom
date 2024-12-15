@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.HttpSys;
+using System.Net;
+using ToDoListAPI.Application.DTOs.StudentTeacher;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
 using ToDoListAPI.Application.Services;
@@ -26,26 +28,7 @@ namespace ToDoList.API.Controllers
 		}
 
 
-		[HttpPost("create")]
-		public async Task<IActionResult> CreateTeacher(CreateTeacher createTeacher)
-		{
-			try
-			{
-				var result = await _teacherService.CreateTeacher(createTeacher);
-				if (!result)
-				{
-					return BadRequest(new { message = "Failed to create teacher's information." });
-				}
-
-				return Ok(new { message = "Teacher's information create successfully." });
-			}
-			
-			catch (Exception ex)
-			{
-				return BadRequest(new { ex.Message });
-			}
-		}
-
+	
 		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
 		[HttpPut("update")]
 		public async Task<IActionResult> UpdateTeacherAsync([FromBody] UpdateTeacher updateTeacher)
@@ -141,7 +124,26 @@ namespace ToDoList.API.Controllers
 				return StatusCode(500, ex.Message);
 			}
 		}
-
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		[HttpPost("addstudent")]
+		public async Task<IActionResult> AddStudent([FromBody]CreateTeacherStudent createTeacherStudent)
+		{
+			
+			try
+			{
+				var students = await _teacherService.AddStudentToTeacherAsync(createTeacherStudent);
+				if (students == null)
+				{
+					return NotFound("No students found for this teacher.");
+				}
+				return Ok(students);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode((int)HttpStatusCode.BadRequest,  ex.Message);
+			}
+		}
+		
 
 	}
 }

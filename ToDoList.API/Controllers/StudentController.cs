@@ -18,23 +18,7 @@ namespace ToDoList.API.Controllers
 		{
 			_studentService = studentService;
 		}
-		[HttpPost("create")]
-		public async Task<IActionResult> CreateStudent (CreateStudent createStudent)
-		{
-			try
-			{
-				var result=await _studentService.CreateStudent(createStudent);
-				if (!result)
-				{
-					return BadRequest(new { message ="Failed to create student's information"});
-				}
-				return Ok(new { message = "Student's information create successfully" });
-			}
-			catch(Exception ex) 
-			{
-				return BadRequest(new {ex.Message});
-			}
-		}
+	
 
 	}
 }

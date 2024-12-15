@@ -30,7 +30,22 @@ namespace ToDoListAPI.Persistence.Services
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<Domain.Entities.Task>> GetAssignedTasksForStudentAsync(string studentId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<Domain.Entities.Task>> GetAssignedTasksForTeacherAsync(string teacherId)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<IEnumerable<Domain.Entities.Task>> GetOverdueTasksAsync(string teacherId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IDictionary<string, TaskStatus>> GetStudentTasksStatusAsync(string teacherId)
 		{
 			throw new NotImplementedException();
 		}

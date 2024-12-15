@@ -23,6 +23,8 @@ using ToDoListAPI.Persistence.Context;
 using Task = ToDoListAPI.Domain.Entities.Task;
 using ToDoListAPI.Domain.Entities.Role;
 using ToDoListAPI.Application.DTOs.Teacher;
+using ToDoListAPI.Application.DTOs.Student;
+using ToDoListAPI.Application.DTOs.StudentTeacher;
 
 namespace ToDoListAPI.Persistence.Services
 {
@@ -35,10 +37,14 @@ namespace ToDoListAPI.Persistence.Services
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly ITeacherReadRepository _teacherReadRepository;
 		private readonly ITeacherWriteRepository _teacherWriteRepository;
+		private readonly IStudentReadRepository _studentReadRepository;
+		private readonly IStudentWriteRepository _studentWriteRepository;
+		private readonly IStudentTeacherWriteRepository _studentTeacherWriteRepository;
+		private readonly IStudentTeacherReadRepository _studentTeacherReadRepository;
 		private readonly AppDbContext _context;
 		private readonly RoleManager<AppRole> _roleManager;
 
-		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository, AppDbContext context, RoleManager<AppRole> roleManager, IAppUserService appUserService)
+		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository, AppDbContext context, RoleManager<AppRole> roleManager, IAppUserService appUserService, IStudentReadRepository studentReadRepository, IStudentWriteRepository studentWriteRepository, IStudentTeacherWriteRepository studentTeacherWriteRepository, IStudentTeacherReadRepository studentTeacherReadRepository)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -49,30 +55,14 @@ namespace ToDoListAPI.Persistence.Services
 			_context = context;
 			_roleManager = roleManager;
 			_appUserService = appUserService;
+			_studentReadRepository = studentReadRepository;
+			_studentWriteRepository = studentWriteRepository;
+			_studentTeacherWriteRepository = studentTeacherWriteRepository;
+			_studentTeacherReadRepository = studentTeacherReadRepository;
 		}
 
 
-		public async Task<bool> CreateTeacher(CreateTeacher createTeacher)
-		{
 
-			AppUser appUser = await _userManager.FindByIdAsync(createTeacher.UserId) ?? throw new Exception("User Not Found");
-
-			var isRoleTeacher = await _userManager.IsInRoleAsync(appUser, RoleModel.Teacher.ToString());
-
-			if (isRoleTeacher)
-			{
-				Teacher teacher = new Teacher()
-				{
-					UserId = createTeacher.UserId,
-					Subject = createTeacher.Subject,
-					Username = appUser.UserName
-				};
-				await _teacherWriteRepository.AddAsnyc(teacher);
-				await _context.SaveChangesAsync();
-				return true;
-			}
-			throw new Exception("User is Not Teacher");
-		}
 
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
@@ -158,33 +148,27 @@ namespace ToDoListAPI.Persistence.Services
 
 
 		}
-		public async Task<bool> AddStudentToTeacherAsync(string studentId, string teacherId)
+		public async Task<bool> AddStudentToTeacherAsync(CreateTeacherStudent createTeacherStudent)
 		{
-			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
-			if (string.IsNullOrEmpty(users))
-			{
-				throw new UnauthorizedAccessException("User is not authenticated");
-			}
+			var isStudentTeacher = await _studentTeacherReadRepository.GetAll().AnyAsync(a => a.TeacherId == Guid.Parse(createTeacherStudent.teacherId) && a.StudentId != Guid.Parse(createTeacherStudent.studentId));
 
-			AppUser teacher = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.UserName == users);
-			if (teacher == null)
-			{
-				throw new Exception("Teacher not found");
-			}
-			AppUser student = await _userManager.Users.Include(x => x.Student).FirstOrDefaultAsync(x => x.UserName == users);
-			if (student == null)
-			{
-				throw new Exception("Student not found");
-			}
+			if (isStudentTeacher) {
 
-			var studentTeacher = new StudentTeacher
-			{
-				TeacherId = ,
-				StudentId = 
-			};
-			await _teacherWriteRepository.AddAsnyc(studentTeacher);
-			await _teacherWriteRepository.SaveAsync();
-			return true;
+				StudentTeacher studentTeacher = new StudentTeacher()
+				{
+
+					StudentId = Guid.Parse(createTeacherStudent.studentId),
+					TeacherId = Guid.Parse(createTeacherStudent.teacherId)
+				};
+
+
+				await _studentTeacherWriteRepository.AddAsnyc(studentTeacher);
+				await _studentTeacherWriteRepository.SaveAsync();
+
+				return true;
+			}
+			throw new UserNotFoundException("The logged in user already exists.");
+
 		}
 
 		public async Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId)
@@ -199,14 +183,13 @@ namespace ToDoListAPI.Persistence.Services
 			{
 				throw new Exception("User Not Found");
 			}
-			var students = await _context.StudentTeachers
-	        .Where(st => st.Teacher.UserId == user.Id)
-	        .Select(st => new
-	            {
-		          Username = st.Student.Username,
-		         Gmail = st.Student.User.Email
-	           })
-	        .ToListAsync();
+
+			var students = await _teacherReadRepository.GetAll().Where(a => a.Id == Guid.Parse(teacherId)).Include(a => a.User).ThenInclude(a => new AppUser()
+			{
+				UserName= a.UserName,
+				Email= a.Email
+			}).ToListAsync();
+		
 
 			return students;
 		}
@@ -214,16 +197,8 @@ namespace ToDoListAPI.Persistence.Services
 		{
 			throw new NotImplementedException();
 		}
-		public Task<IEnumerable<Task>> GetAssignedTasksForTeacherAsync(string teacherId)
-		{
-			throw new NotImplementedException();
-		}
+		
 
-		public Task<IDictionary<string, TaskStatus>> GetStudentTasksStatusAsync(string teacherId)
-		{
-			throw new NotImplementedException();
-		}
-
-
+		
 	}
 }

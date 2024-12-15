@@ -41,47 +41,21 @@ namespace ToDoListAPI.Persistence.Services
 			_context = context;
 		}
 
-		public async Task<bool> CreateStudent(CreateStudent createStudent)
-		{
-			AppUser appUser = await _userManager.FindByIdAsync(createStudent.UserId);
-			if (appUser == null)
-			{
-				throw new Exception("User Not Found");
-			}
-			var isRoleStudent = await _userManager.IsInRoleAsync(appUser, RoleModel.Student.ToString());
-			if (isRoleStudent)
-			{
-				Student student = new Student
-				{
-					UserId = createStudent.UserId,
-					Username = appUser.UserName,
-				};
-				await _studentWriteRepository.AddAsnyc(student);
-				await _context.SaveChangesAsync();
-				return true;
-			}
-			throw new Exception("User is  Not Student");
-		}
+		
 
 		public Task<IEnumerable<Student>> GetAllStudentAsync()
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<Domain.Entities.Task>> GetAssignedTasksForStudentAsync(string studentId)
-		{
-			throw new NotImplementedException();
-		}
+	
 
 		public Task<Student> GetStudentByIdAsync(string id)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<Domain.Entities.Task>> GetSubmittedTasksForStudentAsync(string studentId)
-		{
-			throw new NotImplementedException();
-		}
+	
 
 		public Task<IEnumerable<Teacher>> GetTeacherForStudentAsync(string studentId)
 		{
@@ -89,11 +63,7 @@ namespace ToDoListAPI.Persistence.Services
 		}
 
 
-		public Task<bool> LogOut()
-		{
-			throw new NotImplementedException();
-		}
-
+	
 
 
 		public Task<bool> RemoveTeacherFromStudentAsync(string studentId, string teacherId)

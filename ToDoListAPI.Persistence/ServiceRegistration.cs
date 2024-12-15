@@ -36,6 +36,9 @@ namespace ToDoListAPI.Persistence
 				.AddRoleManager<RoleManager<AppRole>>()
 				.AddEntityFrameworkStores<AppDbContext>();
 
+
+			services.AddScoped<IStudentTeacherWriteRepository,StudentTeacherWriteRepository>();
+			services.AddScoped<IStudentTeacherReadRepository,StudentTeacherReadRepository>();
 			services.AddScoped<IStudentReadRepository,StudentReadRepository>();
 			services.AddScoped<IStudentWriteRepository,StudentWriteRepository>();
 			services.AddScoped<ITaskReadRepository,TaskReadRepository>();

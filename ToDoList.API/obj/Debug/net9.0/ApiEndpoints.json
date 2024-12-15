@@ -85,16 +85,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ToDoList.API.Controllers.StudentController",
-    "Method": "CreateStudent",
-    "RelativePath": "api/Student/create",
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "AddStudent",
+    "RelativePath": "api/Teacher/addstudent",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createStudent",
-        "Type": "ToDoListAPI.Application.DTOs.Student.CreateStudent",
+        "Name": "createTeacherStudent",
+        "Type": "ToDoListAPI.Application.DTOs.StudentTeacher.CreateTeacherStudent",
         "IsRequired": true
       }
     ],
@@ -125,22 +125,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "CreateTeacher",
-    "RelativePath": "api/Teacher/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "createTeacher",
-        "Type": "ToDoListAPI.Application.DTOs.Teacher.CreateTeacher",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
