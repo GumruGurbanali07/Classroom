@@ -25,6 +25,7 @@ using ToDoListAPI.Domain.Entities.Role;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.DTOs.Student;
 using ToDoListAPI.Application.DTOs.StudentTeacher;
+using ToDoListAPI.Application.DTOs.Classroom;
 
 namespace ToDoListAPI.Persistence.Services
 {
@@ -60,9 +61,6 @@ namespace ToDoListAPI.Persistence.Services
 			_studentTeacherWriteRepository = studentTeacherWriteRepository;
 			_studentTeacherReadRepository = studentTeacherReadRepository;
 		}
-
-
-
 
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
 		{
@@ -102,7 +100,7 @@ namespace ToDoListAPI.Persistence.Services
 			AppUser user = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.UserName == users);
 			if (user == null)
 			{
-				throw new Exception("User not found");
+				throw new UserNotFoundException("User not found");
 			}
 
 			var teachers = await _teacherReadRepository.GetAll()
@@ -116,7 +114,6 @@ namespace ToDoListAPI.Persistence.Services
 
 			return teachers;
 		}
-
 		public async Task<GetByIdTeacher> GetTeacherByUserIdAsync(string userId)
 		{
 			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
@@ -171,7 +168,6 @@ namespace ToDoListAPI.Persistence.Services
 			throw new UserNotFoundException("The logged in user already exists.");
 
 		}
-
 		public async Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId)
 		{
 			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
@@ -199,25 +195,47 @@ namespace ToDoListAPI.Persistence.Services
 			var teacherGuid = Guid.Parse(removeTeacherStudent.teacherId);
 			var studentGuid = Guid.Parse(removeTeacherStudent.studentId);
 
-			// Müəllim və tələbə əlaqəsini yoxlamaq
+			
 			var studentTeacher = await _studentTeacherReadRepository
 				.GetAll()
 				.FirstOrDefaultAsync(x => x.TeacherId == teacherGuid && x.StudentId == studentGuid);
 
-			// Əgər belə bir tələbə-müəllim əlaqəsi yoxdursa, istisna at
+	
 			if (studentTeacher == null)
 			{
 				throw new UserNotFoundException("Student not found for the specified teacher.");
 			}
 
-			// Əlaqəni silmək
+		
 			await _studentTeacherWriteRepository.RemoveAsync(studentTeacher.Id.ToString());
 			await _studentTeacherWriteRepository.SaveAsync();
 
 			return true;
 		}
 
+		public Task<bool> CreateClassroomAsync(CreateClassroom createClassroom)
+		{
+			throw new NotImplementedException();
+		}
 
+		public Task<bool> AddStudentToClassroomAsync(string classroomId, string studentEmail)
+		{
+			throw new NotImplementedException();
+		}
 
+		public Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<bool> RemoveStudentFromClassroomAsync(string classroomId, string studentId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<bool> AddCommentToAssignmentAsync(string classroomId, string studentId, string assignmentId, string comment)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

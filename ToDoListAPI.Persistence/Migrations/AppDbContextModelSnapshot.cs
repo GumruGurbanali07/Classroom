@@ -143,6 +143,36 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.ToTable("StudentStudentTeacher");
                 });
 
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.Classroom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Classrooms");
+                });
+
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Grade", b =>
                 {
                     b.Property<Guid>("Id")
@@ -304,6 +334,33 @@ namespace ToDoListAPI.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentClassroom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClassroomId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentClassrooms");
                 });
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentTask", b =>
@@ -500,6 +557,17 @@ namespace ToDoListAPI.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.Classroom", b =>
+                {
+                    b.HasOne("ToDoListAPI.Domain.Entities.Teacher", "Teacher")
+                        .WithMany("Classrooms")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Grade", b =>
                 {
                     b.HasOne("ToDoListAPI.Domain.Entities.StudentTask", "StudentTask")
@@ -520,6 +588,25 @@ namespace ToDoListAPI.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentClassroom", b =>
+                {
+                    b.HasOne("ToDoListAPI.Domain.Entities.Classroom", "Classroom")
+                        .WithMany("StudentClassrooms")
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ToDoListAPI.Domain.Entities.Student", "Student")
+                        .WithMany("StudentClassrooms")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classroom");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.StudentTask", b =>
@@ -578,6 +665,11 @@ namespace ToDoListAPI.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ToDoListAPI.Domain.Entities.Classroom", b =>
+                {
+                    b.Navigation("StudentClassrooms");
+                });
+
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Identity.AppUser", b =>
                 {
                     b.Navigation("Student")
@@ -589,6 +681,8 @@ namespace ToDoListAPI.Persistence.Migrations
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Student", b =>
                 {
+                    b.Navigation("StudentClassrooms");
+
                     b.Navigation("StudentTasks");
                 });
 
@@ -599,6 +693,8 @@ namespace ToDoListAPI.Persistence.Migrations
 
             modelBuilder.Entity("ToDoListAPI.Domain.Entities.Teacher", b =>
                 {
+                    b.Navigation("Classrooms");
+
                     b.Navigation("StudentTasks");
 
                     b.Navigation("StudentTeachers");

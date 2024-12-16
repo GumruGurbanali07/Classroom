@@ -59,24 +59,24 @@ namespace ToDoList.API.Controllers
 
 
 
-		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
-		[HttpGet("getall")]	
-		public async Task<ActionResult> GetAllTeachersAsync()
-		{
-			try
-			{
-				var teachers = await _teacherService.GetAllTeachersAsync();
-				return Ok(teachers);
-			}
-			catch (UnauthorizedAccessException ex)
-			{
-				return Unauthorized(new { message = ex.Message });
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new { message = ex.Message });
-			}
-		}
+		//[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		//[HttpGet("getall")]	
+		//public async Task<ActionResult> GetAllTeachersAsync()
+		//{
+		//	try
+		//	{
+		//		var teachers = await _teacherService.GetAllTeachersAsync();
+		//		return Ok(teachers);
+		//	}
+		//	catch (UnauthorizedAccessException ex)
+		//	{
+		//		return Unauthorized(new { message = ex.Message });
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		return BadRequest(new { message = ex.Message });
+		//	}
+		//}
 
 		[Authorize(AuthenticationSchemes =nameof(RoleModel.Teacher))]
 		[HttpGet("GetTeacherByUserId/{userId}")]
@@ -102,65 +102,65 @@ namespace ToDoList.API.Controllers
 		}
 
 
-		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
-		[HttpGet("allstudents/{teacherId}")]
-		public async Task<ActionResult<IEnumerable<object>>> GetStudentsForTeacher(string teacherId)
-		{
-			try
-			{
-				var students = await _teacherService.GetAllStudentsForTeacherAsync(teacherId);
-				if (students == null)
-				{
-					return NotFound("No students found for this teacher.");
-				}
-				return Ok(students);
-			}
-			catch (UnauthorizedAccessException ex)
-			{
-				return Unauthorized(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				return StatusCode(500, ex.Message);
-			}
-		}
-		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
-		[HttpPost("addstudent")]
-		public async Task<IActionResult> AddStudent([FromBody]CreateTeacherStudent createTeacherStudent)
-		{
+		//[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		//[HttpGet("allstudents/{teacherId}")]
+		//public async Task<ActionResult<IEnumerable<object>>> GetStudentsForTeacher(string teacherId)
+		//{
+		//	try
+		//	{
+		//		var students = await _teacherService.GetAllStudentsForTeacherAsync(teacherId);
+		//		if (students == null)
+		//		{
+		//			return NotFound("No students found for this teacher.");
+		//		}
+		//		return Ok(students);
+		//	}
+		//	catch (UnauthorizedAccessException ex)
+		//	{
+		//		return Unauthorized(ex.Message);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		return StatusCode(500, ex.Message);
+		//	}
+		//}
+		//[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		//[HttpPost("addstudent")]
+		//public async Task<IActionResult> AddStudent([FromBody]CreateTeacherStudent createTeacherStudent)
+		//{
 			
-			try
-			{
-				var students = await _teacherService.AddStudentToTeacherAsync(createTeacherStudent);
-				if (students == null)
-				{
-					return NotFound("No students found for this teacher.");
-				}
-				return Ok(students);
-			}
-			catch (Exception ex)
-			{
-				return StatusCode((int)HttpStatusCode.BadRequest,  ex.Message);
-			}
-		}
-		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
-		[HttpPost("removestudent")]
-		public async Task<IActionResult> RemoveStudent([FromBody] RemoveTeacherStudent removeTeacherStudent)
-		{
-			try
-			{
-				var students = await _teacherService.RemoveStudentFromTeacherAsync(removeTeacherStudent);
-				if (students == null)
-				{
-					return NotFound("No students found for this teacher.");
-				}
-				return Ok(students);
-			}
-			catch (Exception ex)
-			{
-				return StatusCode((int)HttpStatusCode.BadRequest, ex.Message);
-			}
-		}
+		//	try
+		//	{
+		//		var students = await _teacherService.AddStudentToTeacherAsync(createTeacherStudent);
+		//		if (students == null)
+		//		{
+		//			return NotFound("No students found for this teacher.");
+		//		}
+		//		return Ok(students);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		return StatusCode((int)HttpStatusCode.BadRequest,  ex.Message);
+		//	}
+		//}
+		//[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		//[HttpDelete("removestudent")]
+		//public async Task<IActionResult> RemoveStudent([FromBody] RemoveTeacherStudent removeTeacherStudent)
+		//{
+		//	try
+		//	{
+		//		var students = await _teacherService.RemoveStudentFromTeacherAsync(removeTeacherStudent);
+		//		if (students == null)
+		//		{
+		//			return NotFound("No students found for this teacher.");
+		//		}
+		//		return Ok(students);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		return StatusCode((int)HttpStatusCode.BadRequest, ex.Message);
+		//	}
+		//}
 
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToDoListAPI.Application.DTOs.Classroom;
 using ToDoListAPI.Application.DTOs.StudentTeacher;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Domain.Entities;
@@ -13,13 +14,19 @@ namespace ToDoListAPI.Application.Services
 	public interface ITeacherService
 	{
 		
-		Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher);
-		Task<IEnumerable<object>> GetAllTeachersAsync();
+		Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher);		
 		Task<GetByIdTeacher> GetTeacherByUserIdAsync(string userId);
-		Task<bool> AddStudentToTeacherAsync(CreateTeacherStudent createTeacherStudent);
-		Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId);
-		Task<bool> RemoveStudentFromTeacherAsync(RemoveTeacherStudent removeTeacherStudent);
-		
+		Task<bool> CreateClassroomAsync(CreateClassroom createClassroom);		
+		Task<bool> AddStudentToClassroomAsync(string classroomId, string studentEmail);	
+		Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId);	
+		Task<bool> RemoveStudentFromClassroomAsync(string classroomId, string studentId);		
+		Task<bool> AddCommentToAssignmentAsync(string classroomId, string studentId, string assignmentId, string comment);
+
+
+		//Task<bool> AddStudentToTeacherAsync(CreateTeacherStudent createTeacherStudent);
+		//Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId);
+		//Task<bool> RemoveStudentFromTeacherAsync(RemoveTeacherStudent removeTeacherStudent);
+		//Task<IEnumerable<object>> GetAllTeachersAsync();
 
 	}
 }

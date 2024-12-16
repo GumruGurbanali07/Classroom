@@ -25,8 +25,9 @@ namespace ToDoListAPI.Persistence.Context
 		public DbSet<Grade> Grades { get; set; }
 		public DbSet<StudentTask> StudentTasks { get; set; }
 		public DbSet<StudentTeacher> StudentTeachers { get; set; }
+		public DbSet<Classroom> Classrooms { get; set; }
+		public DbSet<StudentClassroom> StudentClassrooms { get; set; }
 
-		
 		public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
 			var entries = ChangeTracker.Entries();
