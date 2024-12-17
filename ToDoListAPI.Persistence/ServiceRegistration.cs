@@ -45,6 +45,8 @@ namespace ToDoListAPI.Persistence
 			services.AddScoped<ITaskWriteRepository,TaskWriteRepository>();
 			services.AddScoped<ITeacherReadRepository,TeacherReadRepository>();
 			services.AddScoped<ITeacherWriteRepository, TeacherWriteRepository>();
+			services.AddScoped<IStudentClassroomReadRepository,StudentClassroomReadRepository>();
+			services.AddScoped<IStudentClassroomWriteRepository,StudentClassroomWriteRepository>();
 			services.AddScoped<IAppUserService, AppUserService > ();
 			services.AddScoped<ITeacherService,TeacherService>();
 			services.AddScoped<IStudentService, StudentService>();

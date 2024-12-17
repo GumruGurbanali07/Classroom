@@ -14,9 +14,7 @@ namespace ToDoListAPI.Domain.Entities
 
 	
 		public Guid TeacherId { get; set; }
-		public Teacher Teacher { get; set; } 
-
-	
+		public Teacher Teacher { get; set; } 	
 		public ICollection<StudentClassroom> StudentClassrooms { get; set; }
 	}
 }

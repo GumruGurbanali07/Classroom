@@ -23,5 +23,7 @@ namespace ToDoListAPI.Application.Services
 		Task<Task> CreateTaskAsync(CreateTask createTaskDTO);//t
 		Task<Task> UpdateTaskAsync(UpdateTask updateTaskDTO);//t
 		Task<bool> DeleteTaskAsync(Guid id);//t
+		Task<bool> AddCommentToAssignmentAsync(string classroomId, string studentId, string assignmentId, string comment);
+
 	}
 }

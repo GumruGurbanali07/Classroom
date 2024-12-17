@@ -85,42 +85,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ToDoList.API.Controllers.StudentController",
-    "Method": "GetAllStudents",
-    "RelativePath": "api/Student/getall",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.StudentController",
-    "Method": "UpdateStudent",
-    "RelativePath": "api/Student/update",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "updateStudent",
-        "Type": "ToDoListAPI.Application.DTOs.Student.UpdateStudent",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "AddStudent",
-    "RelativePath": "api/Teacher/addstudent",
+    "Method": "AddStudentToClassroom",
+    "RelativePath": "api/Teacher/addstudenttoclassroom",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createTeacherStudent",
-        "Type": "ToDoListAPI.Application.DTOs.StudentTeacher.CreateTeacherStudent",
+        "Name": "studentClass",
+        "Type": "ToDoListAPI.Application.DTOs.Classroom.StudentClass",
         "IsRequired": true
       }
     ],
@@ -128,38 +102,34 @@
   },
   {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "GetStudentsForTeacher",
-    "RelativePath": "api/Teacher/allstudents/{teacherId}",
+    "Method": "CreateClassroom",
+    "RelativePath": "api/Teacher/createclassroom",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createClassroom",
+        "Type": "ToDoListAPI.Application.DTOs.Classroom.CreateClassroom",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "GetAllStudentsInClassroom",
+    "RelativePath": "api/Teacher/getallstudentsinclassroom/{classroomId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "teacherId",
+        "Name": "classroomId",
         "Type": "System.String",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "GetAllTeachersAsync",
-    "RelativePath": "api/Teacher/getall",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -173,22 +143,6 @@
       {
         "Name": "userId",
         "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ToDoList.API.Controllers.TeacherController",
-    "Method": "RemoveStudent",
-    "RelativePath": "api/Teacher/removestudent",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "removeTeacherStudent",
-        "Type": "ToDoListAPI.Application.DTOs.StudentTeacher.RemoveTeacherStudent",
         "IsRequired": true
       }
     ],

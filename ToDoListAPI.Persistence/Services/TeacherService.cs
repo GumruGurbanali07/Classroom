@@ -42,10 +42,12 @@ namespace ToDoListAPI.Persistence.Services
 		private readonly IStudentWriteRepository _studentWriteRepository;
 		private readonly IStudentTeacherWriteRepository _studentTeacherWriteRepository;
 		private readonly IStudentTeacherReadRepository _studentTeacherReadRepository;
+		private readonly IStudentClassroomWriteRepository _studentClassroomWriteRepository;
+		private readonly IStudentClassroomReadRepository _studentClassroomReadRepository;
 		private readonly AppDbContext _context;
 		private readonly RoleManager<AppRole> _roleManager;
 
-		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository, AppDbContext context, RoleManager<AppRole> roleManager, IAppUserService appUserService, IStudentReadRepository studentReadRepository, IStudentWriteRepository studentWriteRepository, IStudentTeacherWriteRepository studentTeacherWriteRepository, IStudentTeacherReadRepository studentTeacherReadRepository)
+		public TeacherService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler, IHttpContextAccessor httpContextAccessor, ITeacherReadRepository teacherReadRepository, ITeacherWriteRepository teacherWriteRepository, AppDbContext context, RoleManager<AppRole> roleManager, IAppUserService appUserService, IStudentReadRepository studentReadRepository, IStudentWriteRepository studentWriteRepository, IStudentTeacherWriteRepository studentTeacherWriteRepository, IStudentTeacherReadRepository studentTeacherReadRepository, IStudentClassroomWriteRepository studentClassroomWriteRepository, IStudentClassroomReadRepository studentClassroomReadRepository)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -60,6 +62,8 @@ namespace ToDoListAPI.Persistence.Services
 			_studentWriteRepository = studentWriteRepository;
 			_studentTeacherWriteRepository = studentTeacherWriteRepository;
 			_studentTeacherReadRepository = studentTeacherReadRepository;
+			_studentClassroomWriteRepository = studentClassroomWriteRepository;
+			_studentClassroomReadRepository = studentClassroomReadRepository;
 		}
 
 		public async Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher)
@@ -195,37 +199,122 @@ namespace ToDoListAPI.Persistence.Services
 			var teacherGuid = Guid.Parse(removeTeacherStudent.teacherId);
 			var studentGuid = Guid.Parse(removeTeacherStudent.studentId);
 
-			
+
 			var studentTeacher = await _studentTeacherReadRepository
 				.GetAll()
 				.FirstOrDefaultAsync(x => x.TeacherId == teacherGuid && x.StudentId == studentGuid);
 
-	
+
 			if (studentTeacher == null)
 			{
 				throw new UserNotFoundException("Student not found for the specified teacher.");
 			}
 
-		
+
 			await _studentTeacherWriteRepository.RemoveAsync(studentTeacher.Id.ToString());
 			await _studentTeacherWriteRepository.SaveAsync();
 
 			return true;
 		}
 
-		public Task<bool> CreateClassroomAsync(CreateClassroom createClassroom)
+		public async Task<bool> CreateClassroomAsync(CreateClassroom createClassroom)
 		{
-			throw new NotImplementedException();
+			var teacher = await _teacherReadRepository.GetByIdAsync(createClassroom.TeacherId.ToString());
+			if (teacher == null)
+			{
+				throw new UserNotFoundException("Teacher not found");
+			}
+			var classroom = new Classroom
+			{
+				Id = Guid.NewGuid(),
+				Name = createClassroom.Name,
+				Description = createClassroom.Description,
+				TeacherId = teacher.Id,
+			};
+
+			if (createClassroom.StudentEmails != null && createClassroom.StudentEmails.Any())
+			{
+				classroom.StudentClassrooms = new List<StudentClassroom>();
+				foreach (var email in createClassroom.StudentEmails)
+				{
+					var student = await _context.Users
+						.Include(x => x.Student)
+						.FirstOrDefaultAsync(x => x.Email == email);
+
+					if (student?.Student != null)
+					{
+						var studentClassroom = new StudentClassroom
+						{
+							StudentId = student.Student.Id,
+							ClassroomId = classroom.Id,
+						};
+						await _studentClassroomWriteRepository.AddAsnyc(studentClassroom);
+					}
+				}
+				await _context.Classrooms.AddAsync(classroom);
+				await _context.SaveChangesAsync();
+			}
+
+			return true;
+
 		}
 
-		public Task<bool> AddStudentToClassroomAsync(string classroomId, string studentEmail)
+		public async Task<bool> AddStudentToClassroomAsync(StudentClass studentClass)
 		{
-			throw new NotImplementedException();
+			var classroom = await _context.Classrooms.FirstOrDefaultAsync(x => x.Id.ToString() == studentClass.classroomId);
+			if (classroom == null)
+			{
+				throw new NotFoundException("Classroom not found");
+			}
+			var student = await _context.Users
+				.Include(x => x.Student)
+				.FirstOrDefaultAsync(x => x.Email == studentClass.studentEmail);
+			if (student?.Student == null)
+			{
+				throw new UserNotFoundException("Student not found");
+			}
+			var exist = await _context.StudentClassrooms
+				.AnyAsync(x => x.ClassroomId == classroom.Id && x.StudentId == student.Student.Id);
+			if (exist)
+			{
+				throw new InvalidOperationException("Student is already added to the classroom");
+			}
+			var studentClassroom = new StudentClassroom
+			{
+				StudentId = student.Student.Id,
+				ClassroomId=classroom.Id
+			};
+			await _studentClassroomWriteRepository.AddAsnyc(studentClassroom);
+			await _context.SaveChangesAsync();
+			return true;
+
 		}
 
-		public Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId)
+		public async Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId)
 		{
-			throw new NotImplementedException();
+		   var classroom=await _context.Classrooms.FirstOrDefaultAsync(x=>x.Id.ToString() == classroomId);
+			if(classroom == null)
+			{
+				throw new NotFoundException("Classroom not found");
+			}
+			var studentinclassroom = await _context.StudentClassrooms
+				.Where(x => x.ClassroomId == classroom.Id)
+				.Include(x => x.Student).ToListAsync();
+
+			if (!studentinclassroom.Any())
+			{
+				throw new UserNotFoundException("Students not found");
+			}
+
+			var result = studentinclassroom
+				.Where(x => x.Student != null)
+				.Select(x => new
+				{
+					x.Student.Id,
+					x.Student.Username,
+					x.Student.User.Email
+				});
+			return result;
 		}
 
 		public Task<bool> RemoveStudentFromClassroomAsync(string classroomId, string studentId)

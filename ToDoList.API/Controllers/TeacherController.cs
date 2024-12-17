@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.HttpSys;
 using System.Net;
+using ToDoListAPI.Application.DTOs.Classroom;
 using ToDoListAPI.Application.DTOs.StudentTeacher;
 using ToDoListAPI.Application.DTOs.Teacher;
 using ToDoListAPI.Application.Exceptions;
@@ -54,10 +55,70 @@ namespace ToDoList.API.Controllers
 
 		}
 
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		[HttpPost("createclassroom")]
+		public async Task<IActionResult> CreateClassroom([FromBody] CreateClassroom createClassroom)
+		{
+			try
+			{
+				var result = await _teacherService.CreateClassroomAsync(createClassroom);
 
-		
+				if (result)
+				{
+					return Ok(new { Message = "Classroom created successfully" });
+				}
+				else
+				{
+					return BadRequest(new { Message = "Failed to create classroom" });
+				}
+			}
+			catch (UserNotFoundException ex)
+			{
+				return NotFound(new { Message = ex.Message });
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new
+				{
+					message = "An error occurred",
+					details = ex.InnerException?.Message ?? ex.Message
+				});
+			}
+		}
 
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		[HttpPost("addstudenttoclassroom")]
+		public async Task<IActionResult> AddStudentToClassroom([FromBody] StudentClass studentClass)
+		{
+			try
+			{
+				var result = await _teacherService.AddStudentToClassroomAsync(studentClass);
+				if (result)
+				{
+					return Ok(new { Message = "Student added to classroom successfully" });
+				}
+				return BadRequest(new { Message = "Failed to add student to classroom" });
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new { Message = ex.Message });
+			}
+		}
 
+		[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
+		[HttpGet("getallstudentsinclassroom/{classroomId}")]
+		public async Task<IActionResult> GetAllStudentsInClassroom([FromRoute]string classroomId)
+		{
+			try
+			{
+				var students = await _teacherService.GetAllStudentsInClassroomAsync(classroomId);
+				return Ok(new { Students = students });
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new { Message = ex.Message });
+			}
+		}
 
 		//[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
 		//[HttpGet("getall")]	

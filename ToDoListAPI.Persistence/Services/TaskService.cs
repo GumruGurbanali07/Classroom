@@ -10,6 +10,11 @@ namespace ToDoListAPI.Persistence.Services
 {
 	public class TaskService : ITaskService
 	{
+		public Task<bool> AddCommentToAssignmentAsync(string classroomId, string studentId, string assignmentId, string comment)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<Domain.Entities.Task> CreateTaskAsync(CreateTask createTaskDTO)
 		{
 			throw new NotImplementedException();

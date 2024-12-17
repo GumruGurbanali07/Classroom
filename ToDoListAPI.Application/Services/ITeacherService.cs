@@ -13,14 +13,13 @@ namespace ToDoListAPI.Application.Services
 {
 	public interface ITeacherService
 	{
-		
-		Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher);		
+
+		Task<bool> UpdateTeacherAsync(UpdateTeacher updateTeacher);
 		Task<GetByIdTeacher> GetTeacherByUserIdAsync(string userId);
-		Task<bool> CreateClassroomAsync(CreateClassroom createClassroom);		
-		Task<bool> AddStudentToClassroomAsync(string classroomId, string studentEmail);	
-		Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId);	
-		Task<bool> RemoveStudentFromClassroomAsync(string classroomId, string studentId);		
-		Task<bool> AddCommentToAssignmentAsync(string classroomId, string studentId, string assignmentId, string comment);
+		Task<bool> CreateClassroomAsync(CreateClassroom createClassroom);
+		Task<bool> AddStudentToClassroomAsync(StudentClass studentClass);
+		Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId);
+		Task<bool> RemoveStudentFromClassroomAsync(string classroomId, string studentId);
 
 
 		//Task<bool> AddStudentToTeacherAsync(CreateTeacherStudent createTeacherStudent);
