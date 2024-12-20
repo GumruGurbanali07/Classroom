@@ -150,6 +150,22 @@
   },
   {
     "ContainingType": "ToDoList.API.Controllers.TeacherController",
+    "Method": "RemoveStudentFromClassroomAsync",
+    "RelativePath": "api/Teacher/removestudent",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "removeStudent",
+        "Type": "ToDoListAPI.Application.DTOs.Teacher.RemoveStudent",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ToDoList.API.Controllers.TeacherController",
     "Method": "UpdateTeacherAsync",
     "RelativePath": "api/Teacher/update",
     "HttpMethod": "PUT",

@@ -119,6 +119,38 @@ namespace ToDoList.API.Controllers
 				return BadRequest(new { Message = ex.Message });
 			}
 		}
+		[Authorize(AuthenticationSchemes =nameof(RoleModel.Teacher))]
+		[HttpDelete("removestudent")]
+		public async Task<IActionResult> RemoveStudentFromClassroomAsync([FromBody]RemoveStudent removeStudent)
+		{
+			try
+			{
+				var result = await _teacherService.RemoveStudentFromClassroomAsync(removeStudent);
+
+				if (result)
+				{
+					return Ok(new { message = "Student successfully removed from the classroom." });
+				}
+				else
+				{
+					return BadRequest(new { message = "Failed to remove student from the classroom." });
+				}
+			}
+			catch (NotFoundException ex)
+			{
+				return NotFound(new { message = ex.Message });
+			}
+			catch (UserNotFoundException ex)
+			{
+				return NotFound(new { message = ex.Message });
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, new { message = ex.Message });
+			}
+		}
+		
+
 
 		//[Authorize(AuthenticationSchemes = nameof(RoleModel.Teacher))]
 		//[HttpGet("getall")]	

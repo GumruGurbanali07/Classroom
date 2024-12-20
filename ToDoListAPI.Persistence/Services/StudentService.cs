@@ -103,7 +103,7 @@ namespace ToDoListAPI.Persistence.Services
 			throw new NotImplementedException();
 		}
 
-		Task<GetByIdStudent> IStudentService.GetStudentByIdAsync(string userId)
+		Task<GetByIdStudent> IStudentService.GetStudentByUserIdAsync(string userId)
 		{
 			throw new NotImplementedException();
 		}

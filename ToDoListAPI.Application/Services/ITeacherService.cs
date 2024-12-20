@@ -19,13 +19,10 @@ namespace ToDoListAPI.Application.Services
 		Task<bool> CreateClassroomAsync(CreateClassroom createClassroom);
 		Task<bool> AddStudentToClassroomAsync(StudentClass studentClass);
 		Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId);
-		Task<bool> RemoveStudentFromClassroomAsync(string classroomId, string studentId);
+		Task<bool> RemoveStudentFromClassroomAsync(RemoveStudent removeStudent);
 
 
-		//Task<bool> AddStudentToTeacherAsync(CreateTeacherStudent createTeacherStudent);
-		//Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId);
-		//Task<bool> RemoveStudentFromTeacherAsync(RemoveTeacherStudent removeTeacherStudent);
-		//Task<IEnumerable<object>> GetAllTeachersAsync();
+		
 
 	}
 }

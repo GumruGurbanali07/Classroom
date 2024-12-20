@@ -93,31 +93,7 @@ namespace ToDoListAPI.Persistence.Services
 
 			return result;
 		}
-		public async Task<IEnumerable<object>> GetAllTeachersAsync()
-		{
-			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
-			if (string.IsNullOrEmpty(users))
-			{
-				throw new UnauthorizedAccessException("User is not authenticated");
-			}
-
-			AppUser user = await _userManager.Users.Include(a => a.Teacher).FirstOrDefaultAsync(a => a.UserName == users);
-			if (user == null)
-			{
-				throw new UserNotFoundException("User not found");
-			}
-
-			var teachers = await _teacherReadRepository.GetAll()
-			.Include(a => a.User)
-			 .Select(a => new
-			 {
-				 Username = a.User.Name,
-				 Subject = a.Subject
-			 })
-			  .ToListAsync();
-
-			return teachers;
-		}
+		
 		public async Task<GetByIdTeacher> GetTeacherByUserIdAsync(string userId)
 		{
 			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
@@ -149,73 +125,7 @@ namespace ToDoListAPI.Persistence.Services
 
 
 		}
-		public async Task<bool> AddStudentToTeacherAsync(CreateTeacherStudent createTeacherStudent)
-		{
-			var isStudentTeacher = await _studentTeacherReadRepository.GetAll().AnyAsync(a => a.TeacherId == Guid.Parse(createTeacherStudent.teacherId) && a.StudentId != Guid.Parse(createTeacherStudent.studentId));
-
-			if (isStudentTeacher)
-			{
-
-				StudentTeacher studentTeacher = new StudentTeacher()
-				{
-
-					StudentId = Guid.Parse(createTeacherStudent.studentId),
-					TeacherId = Guid.Parse(createTeacherStudent.teacherId)
-				};
-
-
-				await _studentTeacherWriteRepository.AddAsnyc(studentTeacher);
-				await _studentTeacherWriteRepository.SaveAsync();
-
-				return true;
-			}
-			throw new UserNotFoundException("The logged in user already exists.");
-
-		}
-		public async Task<IEnumerable<object>> GetAllStudentsForTeacherAsync(string teacherId)
-		{
-			var users = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
-			if (string.IsNullOrEmpty(users))
-			{
-				throw new Exception("User Not Found");
-			}
-			AppUser user = await _userManager.Users.Include(x => x.Teacher).FirstOrDefaultAsync(x => x.UserName == users);
-			if (user == null)
-			{
-				throw new Exception("User Not Found");
-			}
-
-			var students = await _teacherReadRepository.GetAll().Where(a => a.Id == Guid.Parse(teacherId)).Include(a => a.User).ThenInclude(a => new AppUser()
-			{
-				UserName = a.UserName,
-				Email = a.Email
-			}).ToListAsync();
-
-
-			return students;
-		}
-		public async Task<bool> RemoveStudentFromTeacherAsync(RemoveTeacherStudent removeTeacherStudent)
-		{
-			var teacherGuid = Guid.Parse(removeTeacherStudent.teacherId);
-			var studentGuid = Guid.Parse(removeTeacherStudent.studentId);
-
-
-			var studentTeacher = await _studentTeacherReadRepository
-				.GetAll()
-				.FirstOrDefaultAsync(x => x.TeacherId == teacherGuid && x.StudentId == studentGuid);
-
-
-			if (studentTeacher == null)
-			{
-				throw new UserNotFoundException("Student not found for the specified teacher.");
-			}
-
-
-			await _studentTeacherWriteRepository.RemoveAsync(studentTeacher.Id.ToString());
-			await _studentTeacherWriteRepository.SaveAsync();
-
-			return true;
-		}
+	
 
 		public async Task<bool> CreateClassroomAsync(CreateClassroom createClassroom)
 		{
@@ -282,7 +192,7 @@ namespace ToDoListAPI.Persistence.Services
 			var studentClassroom = new StudentClassroom
 			{
 				StudentId = student.Student.Id,
-				ClassroomId=classroom.Id
+				ClassroomId = classroom.Id
 			};
 			await _studentClassroomWriteRepository.AddAsnyc(studentClassroom);
 			await _context.SaveChangesAsync();
@@ -292,39 +202,60 @@ namespace ToDoListAPI.Persistence.Services
 
 		public async Task<IEnumerable<object>> GetAllStudentsInClassroomAsync(string classroomId)
 		{
-		   var classroom=await _context.Classrooms.FirstOrDefaultAsync(x=>x.Id.ToString() == classroomId);
-			if(classroom == null)
+			var classroom = await _context.Classrooms.FirstOrDefaultAsync(x => x.Id.ToString() == classroomId);
+			if (classroom == null)
 			{
 				throw new NotFoundException("Classroom not found");
 			}
 			var studentinclassroom = await _context.StudentClassrooms
 				.Where(x => x.ClassroomId == classroom.Id)
-				.Include(x => x.Student).ToListAsync();
+				.Include(x => x.Student)
+				.ThenInclude(x => x.User)
+				.ToListAsync();
 
 			if (!studentinclassroom.Any())
 			{
 				throw new UserNotFoundException("Students not found");
 			}
-
-			var result = studentinclassroom
-				.Where(x => x.Student != null)
-				.Select(x => new
-				{
-					x.Student.Id,
-					x.Student.Username,
-					x.Student.User.Email
-				});
-			return result;
+			try
+			{
+				var result = studentinclassroom
+					.Where(x => x.Student != null && x.Student.User != null)
+					.Select(x => new
+					{
+						x.Student.Id,
+						x.Student.Username,
+						x.Student.User.Email
+					});
+				return result;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("An error occurred while processing the students", ex);
+			}
 		}
 
-		public Task<bool> RemoveStudentFromClassroomAsync(string classroomId, string studentId)
+		public async Task<bool> RemoveStudentFromClassroomAsync(RemoveStudent removeStudent)
 		{
-			throw new NotImplementedException();
+			var classroom = await _context.Classrooms.FirstOrDefaultAsync(x => x.Id.ToString() == removeStudent.classroomId);
+			if (classroom == null)
+			{
+				throw new NotFoundException("Classroom not found");
+			}
+			var studentinclassroom = await _context.StudentClassrooms
+				.Where(x => x.ClassroomId == classroom.Id)
+				.Include(x => x.Student)
+				.ThenInclude(x => x.User)
+				.FirstOrDefaultAsync(x => x.ClassroomId == classroom.Id && x.Student.Id.ToString() == removeStudent.studentId);
+			if (studentinclassroom == null)
+			{
+				throw new UserNotFoundException("Student not found in the classroom");
+
+			}
+			_context.StudentClassrooms.Remove(studentinclassroom);
+			await _context.SaveChangesAsync();
+			return true;
 		}
 
-		public Task<bool> AddCommentToAssignmentAsync(string classroomId, string studentId, string assignmentId, string comment)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }
